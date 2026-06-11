@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Journey: I. Southgate - Ibis Luton Refund</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --booking-blue: #003B95;
+    --action-blue: #006CE4;
+    --accent-yellow: #FFB700;
+    --energy-blue: #3FD0FC;
+    --confident-black: #090034;
+    --red: #E53935;
+    --orange: #F57C00;
+    --yellow: #F9A825;
+    --green: #2E7D32;
+    --blue: #006CE4;
+    --grey: #546E7A;
+    --light: #FAFAFA;
+    --card-bg: #FFFFFF;
+    --border: #E0E0E0;
+    --text: #090034;
+    --subtext: #546E7A;
+    --failure-bg: #FFEBEE;
+    --warning-bg: #FFF3E0;
+    --ok-bg: #E8F5E9;
+    --failure-border: #EF9A9A;
+    --warning-border: #FFCC80;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #F0F4F8;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* -- Header -- */
+  header {
+    background: var(--booking-blue);
+    color: #fff;
+    padding: 40px 48px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  header .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-yellow);
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    max-width: 640px;
+  }
+
+  .summary-strip {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 0;
+  }
+  .summary-stat {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 20px 24px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .summary-stat:last-child { border-right: none; }
+  .summary-stat .num {
+    font-size: 32px;
+    font-weight: 800;
+    display: block;
+  }
+  .summary-stat .desc {
+    font-size: 12px;
+    color: var(--subtext);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .stat-red .num { color: var(--red); }
+  .stat-orange .num { color: var(--orange); }
+  .stat-yellow .num { color: var(--yellow); }
+
+  /* -- Main layout -- */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--booking-blue);
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
+
+  /* -- Journey timeline -- */
+  .timeline {
+    position: relative;
+    padding-left: 56px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--green), var(--accent-yellow), var(--red), #B71C1C);
+  }
+
+  .step {
+    position: relative;
+    margin-bottom: 24px;
+  }
+  .step-dot {
+    position: absolute;
+    left: -44px;
+    top: 16px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    z-index: 1;
+    border: 3px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .dot-ok    { background: var(--green);  color: #fff; }
+  .dot-warn  { background: var(--accent-yellow); color: var(--confident-black); }
+  .dot-fail  { background: var(--red);    color: #fff; }
+  .dot-crit  { background: #B71C1C;       color: #fff; }
+  .dot-info  { background: var(--booking-blue);   color: #fff; }
+
+  .step-card {
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    padding: 18px 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .step-card.fail  { background: #FDE8E8; border-color: #F9BFBF; }
+  .step-card.warn  { background: #FFF8E1; border-color: #FFE082; }
+  .step-card.crit  { background: #FCE4EC; border-color: #F48FB1; }
+  .step-card.ok    { background: #E8F5E9; border-color: #A5D6A7; }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .step-title {
+    font-size: 15px;
+    font-weight: 800;
+    flex: 1;
+  }
+  .badge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-fail { background: var(--red);    color: #fff; }
+  .badge-crit { background: #B71C1C;       color: #fff; }
+  .badge-warn { background: var(--accent-yellow); color: var(--confident-black); }
+  .badge-ok   { background: var(--green);  color: #fff; }
+  .badge-info { background: var(--booking-blue);   color: #fff; }
+
+  .step-desc {
+    font-size: 13.5px;
+    color: #37474F;
+    margin-bottom: 12px;
+  }
+
+  .impact-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .impact-chip {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    border: 1px solid currentColor;
+  }
+  .chip-trust    { color: #6A1B9A; background: #F3E5F5; }
+  .chip-context  { color: #1565C0; background: #E3F2FD; }
+  .chip-comms    { color: #E65100; background: #FBE9E7; }
+  .chip-security { color: #B71C1C; background: #FFEBEE; }
+  .chip-process  { color: #2E7D32; background: #E8F5E9; }
+  .chip-cx       { color: #37474F; background: #ECEFF1; }
+  .chip-auto     { color: #4A148C; background: #EDE7F6; }
+
+  .quote {
+    border-left: 3px solid #EF5350;
+    background: rgba(239,83,80,0.05);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #37474F;
+    font-style: italic;
+  }
+
+  /* -- Failure summary -- */
+  .failures-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  @media (max-width: 640px) { .failures-grid { grid-template-columns: 1fr; } }
+
+  .failure-card {
+    border-radius: 10px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .failure-card.severity-critical {
+    border-left: 4px solid #B71C1C;
+  }
+  .failure-card.severity-high {
+    border-left: 4px solid var(--red);
+  }
+  .failure-card.severity-medium {
+    border-left: 4px solid var(--orange);
+  }
+  .failure-icon { font-size: 22px; margin-bottom: 8px; display: block; }
+  .failure-title { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+  .failure-body { font-size: 12.5px; color: var(--subtext); line-height: 1.6; }
+  .severity-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    color: #B71C1C;
+  }
+
+  /* -- Emotion arc -- */
+  .emotion-bar {
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+    height: 72px;
+    padding: 12px 16px 0;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .emotion-bar .emo-label {
+    position: absolute;
+    top: 8px; left: 16px;
+    font-size: 11px;
+    color: var(--subtext);
+    font-weight: 600;
+  }
+  .emo-segment {
+    flex: 1;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transition: opacity 0.2s;
+  }
+  .emo-segment:hover { opacity: 0.8; }
+  .emo-tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #212121;
+    color: #fff;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-bottom: 4px;
+    z-index: 10;
+  }
+  .emo-segment:hover .emo-tooltip { display: block; }
+
+  /* -- Channel chaos -- */
+  .channel-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 8px;
+    justify-content: space-between;
+  }
+  .channel-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 90px;
+    flex: 1;
+  }
+  .channel-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    position: relative;
+  }
+  .channel-icon .alert-dot {
+    position: absolute;
+    top: -4px; right: -4px;
+    width: 14px; height: 14px;
+    background: var(--red);
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .ch-app     { background: #E3F2FD; }
+  .ch-email   { background: #FFF3E0; }
+  .ch-partner { background: #F3E5F5; }
+  .ch-phone   { background: #E8F5E9; }
+  .ch-auto    { background: #EDE7F6; }
+  .ch-exec    { background: #FFEBEE; }
+  .channel-label { font-size: 11px; font-weight: 600; text-align: center; color: var(--subtext); }
+
+  .channel-arrow {
+    font-size: 18px;
+    color: var(--red);
+    padding: 0 4px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .channel-arrow .arrow-label {
+    font-size: 9px;
+    color: var(--red);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    max-width: 60px;
+  }
+
+  /* -- Recommendation row -- */
+  .recs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 640px) { .recs-grid { grid-template-columns: 1fr; } }
+
+  .rec-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-top: 3px solid #1565C0;
+  }
+  .rec-num {
+    font-size: 24px;
+    font-weight: 900;
+    color: #C5CAE9;
+    margin-bottom: 6px;
+  }
+  .rec-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .rec-body  { font-size: 12px; color: var(--subtext); line-height: 1.5; }
+
+  footer {
+    text-align: center;
+    padding: 32px;
+    font-size: 12px;
+    color: #90A4AE;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label">Customer Experience Analysis</div>
+  <h1>Ibis Luton Refund - Customer Journey Breakdown</h1>
+  <p>Reconstruction of a 5-week refund journey exposing systemic failures in automated email sends, conversation-state awareness, and case continuity. Escalated to CBO on 25 May 2026.</p>
+</header>
+
+<div class="summary-strip">
+  <div class="summary-stat stat-red">
+    <span class="num">5</span>
+    <span class="desc">Auto-sends in 75 min</span>
+  </div>
+  <div class="summary-stat stat-orange">
+    <span class="num">35+</span>
+    <span class="desc">Days Unresolved</span>
+  </div>
+  <div class="summary-stat stat-yellow">
+    <span class="num">8+</span>
+    <span class="desc">Customer Contacts</span>
+  </div>
+  <div class="summary-stat stat-red">
+    <span class="num">0</span>
+    <span class="desc">Context Retained</span>
+  </div>
+  <div class="summary-stat stat-red">
+    <span class="num">CEO</span>
+    <span class="desc">Escalated To</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- Channel chaos diagram -->
+  <div class="section-title">Communication Fragmentation</div>
+  <div class="channel-flow">
+    <div class="channel-node">
+      <div class="channel-icon ch-app">🏨</div>
+      <div class="channel-label">Booking.com<br>Messaging</div>
+    </div>
+    <div class="channel-arrow">
+      &rarr;
+      <div class="arrow-label">Property unresponsive</div>
+    </div>
+    <div class="channel-node">
+      <div class="channel-icon ch-email">✉️</div>
+      <div class="channel-label">Direct Email<br>(Accor)</div>
+    </div>
+    <div class="channel-arrow">
+      &rarr;
+      <div class="arrow-label">No response</div>
+    </div>
+    <div class="channel-node">
+      <div class="channel-icon ch-auto"><div class="alert-dot"></div>🤖</div>
+      <div class="channel-label">Auto-sends<br>(no-reply)</div>
+    </div>
+    <div class="channel-arrow">
+      &rarr;
+      <div class="arrow-label">Duplicate requests, no progress</div>
+    </div>
+    <div class="channel-node">
+      <div class="channel-icon ch-email"><div class="alert-dot"></div>✉️</div>
+      <div class="channel-label">CS Email<br>(cs-noreply)</div>
+    </div>
+    <div class="channel-arrow">
+      &rarr;
+      <div class="arrow-label">Same info requested again</div>
+    </div>
+    <div class="channel-node">
+      <div class="channel-icon ch-exec"><div class="alert-dot"></div>🚨</div>
+      <div class="channel-label">CEO / CBO<br>Direct Email</div>
+    </div>
+  </div>
+  <p style="font-size:12px; color:var(--subtext); margin-bottom: 32px; padding: 0 4px;">Every arrow represents a system failure that forced the customer to escalate further. The journey ends at the executive inbox - the system's last resort became the customer's only resort.</p>
+
+
+  <!-- Journey timeline -->
+  <div class="section-title">Step-by-Step Journey</div>
+  <div class="timeline">
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-dot dot-info">1</div>
+      <div class="step-card" style="background: #E3F2FD; border-color: #90CAF9;">
+        <div class="step-header">
+          <div class="step-title">Tour cancelled - hotel refund needed</div>
+          <span class="badge badge-info">21 Apr</span>
+        </div>
+        <p class="step-desc">I. Southgate's Bible Land tour to Israel (7-18 May) is cancelled by Travelink due to FCDO travel advice. He has a 1-night booking at Ibis London Luton Airport (6-7 May, #654XXX0103) that is no longer needed. A straightforward cancellation and refund scenario.</p>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-dot dot-ok">2</div>
+      <div class="step-card ok">
+        <div class="step-header">
+          <div class="step-title">Property responds via Booking.com messaging - asks for flight itinerary</div>
+          <span class="badge badge-ok">30 Apr</span>
+        </div>
+        <p class="step-desc">Ibis London Luton Airport messages I. via the Booking.com platform: "Sorry to hear about your flight cancellation. Can you kindly send your flight itinerary?" I. responds same day with a full explanation - FCDO advice, trip cancelled, insurance implications, expects refund, hopes to return next year. Cooperative tone.</p>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-dot dot-warn">3</div>
+      <div class="step-card warn">
+        <div class="step-header">
+          <div class="step-title">No response from property - customer follows up to Accor directly</div>
+          <span class="badge badge-warn">3 May</span>
+        </div>
+        <p class="step-desc">After 3 days with no reply, I. emails the Accor hotel contact (d.***@accor.com) directly: "Further to my email dated 30 April - I look forward to hearing from you." No response received. The customer is already being forced to chase across channels.</p>
+        <div class="impact-row">
+          <span class="impact-chip chip-process">No SLA on property response</span>
+          <span class="impact-chip chip-cx">Customer bears effort</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-dot dot-crit">4</div>
+      <div class="step-card crit">
+        <div class="step-header">
+          <div class="step-title">5 automated messages in 75 minutes - duplicates, irrelevant requests</div>
+          <span class="badge badge-crit">7 May</span>
+        </div>
+        <p class="step-desc">Between 09:35 and 10:47, the system sends I. 5 separate automated emails:</p>
+        <ul style="font-size: 13px; color: #37474F; margin: 8px 0 8px 20px; line-height: 1.8;">
+          <li><strong>09:35</strong> - Information request (V.): asks for confirmation number, PIN, email, accommodation name, dates</li>
+          <li><strong>10:27</strong> - "About your recent enquiry" - promises 48hr response</li>
+          <li><strong>10:35</strong> - DUPLICATE information request (V.) - identical to 09:35</li>
+          <li><strong>10:45</strong> - DUPLICATE "About your recent enquiry" - identical to 10:27</li>
+          <li><strong>10:47</strong> - "To assist you further, call us at:" - provides phone numbers</li>
+        </ul>
+        <p class="step-desc">Every piece of information requested is already in booking #654XXX0103. The system asks the customer to provide data it already holds.</p>
+        <div class="quote">"I have already provided you as requested by your company with flight details, reason for cancellation etc. I suggest you thoroughly check matters out within your organisation before wasting more of my time."</div>
+        <div class="impact-row">
+          <span class="impact-chip chip-auto">Duplicate sends</span>
+          <span class="impact-chip chip-context">No booking awareness</span>
+          <span class="impact-chip chip-comms">5 emails, 0 progress</span>
+          <span class="impact-chip chip-trust">Trust eroding</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <div class="step-dot dot-fail">5</div>
+      <div class="step-card fail">
+        <div class="step-header">
+          <div class="step-title">"How was your stay?" survey sent for a booking that never happened</div>
+          <span class="badge badge-fail">~8-20 May</span>
+        </div>
+        <p class="step-desc">While the refund remains unprocessed, the system sends lifecycle marketing emails asking I. to rate his stay at Ibis London Luton Airport - a stay that never occurred because the booking was cancelled. The cancellation state has not propagated to suppress downstream communications.</p>
+        <div class="impact-row">
+          <span class="impact-chip chip-auto">Lifecycle not state-aware</span>
+          <span class="impact-chip chip-cx">Insult added to injury</span>
+          <span class="impact-chip chip-trust">System appears incompetent</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step">
+      <div class="step-dot dot-fail">6</div>
+      <div class="step-card fail">
+        <div class="step-header">
+          <div class="step-title">Customer escalates to named Booking.com contact - still no resolution</div>
+          <span class="badge badge-fail">20 May</span>
+        </div>
+        <p class="step-desc">I. emails E. B. at Booking.com directly, referencing all prior correspondence. States the matter is unresolved and his money has not been returned. Highlights "the disconnection which prevails in the organisation."</p>
+        <div class="quote">"I have received emails asking me how my stay went showing the disconnection which prevails in the organisation."</div>
+        <div class="impact-row">
+          <span class="impact-chip chip-process">No escalation path worked</span>
+          <span class="impact-chip chip-cx">3 weeks, no outcome</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 7 -->
+    <div class="step">
+      <div class="step-dot dot-fail">7</div>
+      <div class="step-card fail">
+        <div class="step-header">
+          <div class="step-title">Customer demands compensation - tone shifts to formal complaint</div>
+          <span class="badge badge-fail">21 May</span>
+        </div>
+        <p class="step-desc">I. writes: "When are you going to return my long outstanding money plus compensation for the long delay and time spent in chasing you up?" The ask has now expanded from a simple refund to refund + compensation. The cost of inaction is compounding.</p>
+        <div class="impact-row">
+          <span class="impact-chip chip-cx">Scope expanded by delay</span>
+          <span class="impact-chip chip-trust">Reputational risk growing</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 8 -->
+    <div class="step">
+      <div class="step-dot dot-crit">8</div>
+      <div class="step-card crit">
+        <div class="step-header">
+          <div class="step-title">Customer tries again - receives SAME auto-responses as 18 days earlier</div>
+          <span class="badge badge-crit">25 May</span>
+        </div>
+        <p class="step-desc">I. emails support at 18:04 requesting a "personal" response. At 18:40 he receives the same "About your recent enquiry - 48hr response" auto-acknowledgement. At 18:57 a new agent (K.) introduces herself warmly but then asks again for his confirmation number and PIN code - the same information requested on 7 May and already in the system.</p>
+        <div class="quote">"Please explain your latest automated response and advise on a personal basis please having read through all the attachments."</div>
+        <div class="impact-row">
+          <span class="impact-chip chip-auto">No learning between interactions</span>
+          <span class="impact-chip chip-context">Agent has no case history</span>
+          <span class="impact-chip chip-comms">Same template, different name</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 9 -->
+    <div class="step">
+      <div class="step-dot dot-crit">9</div>
+      <div class="step-card crit">
+        <div class="step-header">
+          <div class="step-title">Customer emails CEO and CBO directly - calls it an "automated charade"</div>
+          <span class="badge badge-crit">25 May 22:03</span>
+        </div>
+        <p class="step-desc">I. emails J. Waters (CBO), J. Burke, and G. Fogel (CEO) directly. The system's failure to resolve a simple refund over 5 weeks has now reached the executive inbox. The customer explicitly names automated systems as the problem.</p>
+        <div class="quote">"I would be most grateful if one of you can satisfactorily end this automated charade that I have been enduring for the best part of a month and return my overdue money perhaps with interest and a promise that my time will never be wasted by your ineffective automated systems again."</div>
+        <div class="impact-row">
+          <span class="impact-chip chip-trust">Brand damage - executive level</span>
+          <span class="impact-chip chip-cx">Total system failure</span>
+          <span class="impact-chip chip-process">No internal path worked</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- What led to the non-reply email -->
+  <div class="section-title" style="margin-top: 48px;">What Led to the Non-Reply Email</div>
+  <div style="background: #fff; border-radius: 10px; border: 1px solid var(--border); padding: 24px; border-left: 4px solid var(--accent-yellow);">
+    <p style="font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 16px;">
+      The customer's journey was derailed by a specific sequence: automated emails were sent from <strong>no-reply@booking.com</strong> and <strong>cs-noreply@booking.com</strong> while he was actively trying to resolve a refund. Here's what caused it:
+    </p>
+    <ol style="font-size: 13.5px; color: var(--text); margin: 0 0 16px 20px; line-height: 2;">
+      <li><strong>Property went silent</strong> - Ibis asked for a flight itinerary on 30 April, I. replied same day, then nothing. No SLA enforcement on property response times.</li>
+      <li><strong>Case entered automated queue</strong> - With no property resolution, the case sat in the system until 7 May when auto-sends triggered without human review.</li>
+      <li><strong>Auto-sends fired from no-reply addresses</strong> - The "information request" and "about your recent enquiry" templates all came from mailboxes the customer cannot reply to.</li>
+      <li><strong>Customer replied anyway</strong> - I. responded to the auto-sends with his frustration, but those replies either bounced or went into a void with no routing back to a human.</li>
+      <li><strong>No feedback loop exists</strong> - When a customer tries to reply to a no-reply email, there is no mechanism to detect this, flag it, or route it to an agent. The conversation simply dies.</li>
+    </ol>
+    <p style="font-size: 13.5px; color: var(--subtext); line-height: 1.7;">
+      <strong>The friction points:</strong> The system sent emails that looked like they came from a person (signed "V.", "K.") but from addresses no one can reply to. This creates a false expectation of dialogue. When the customer's only response path is blocked, they escalate - first to named contacts, then to executives.
+    </p>
+  </div>
+
+  <!-- Critical Failures Summary -->
+  <div class="section-title" style="margin-top: 48px;">Critical Failures Summary</div>
+  <div class="failures-grid">
+
+    <div class="failure-card severity-critical">
+      <div class="severity-label">Critical</div>
+      <div class="failure-icon">🔁</div>
+      <div class="failure-title">Duplicate Auto-Sends With No Deduplication</div>
+      <div class="failure-body">The system fired identical email templates multiple times within the same session (75 minutes). There is no deduplication logic preventing the same template from being sent twice to the same customer for the same case. This is the most visible symptom of the broken auto-send infrastructure.</div>
+    </div>
+
+    <div class="failure-card severity-critical">
+      <div class="severity-label">Critical</div>
+      <div class="failure-icon">🗃️</div>
+      <div class="failure-title">Auto-Sends Request Data the System Already Holds</div>
+      <div class="failure-body">The "information request" template asks for confirmation number, email, accommodation name, and check-in/out dates - all of which exist in booking #654XXX0103. Templates are not validated against booking data before sending. The system appears to have no memory of who the customer is.</div>
+    </div>
+
+    <div class="failure-card severity-critical">
+      <div class="severity-label">Critical</div>
+      <div class="failure-icon">💬</div>
+      <div class="failure-title">No Conversation-State Suppression</div>
+      <div class="failure-body">Auto-responses fire regardless of whether an active dialogue is in progress. Agent K. asks for information on 25 May while I. is mid-conversation about the same issue. The system has no concept of "this customer is currently engaged" that would suppress generic auto-sends.</div>
+    </div>
+
+    <div class="failure-card severity-high">
+      <div class="severity-label">High</div>
+      <div class="failure-icon">📊</div>
+      <div class="failure-title">Lifecycle Emails Ignore Booking State</div>
+      <div class="failure-body">Satisfaction surveys ("how was your stay?") were sent for a booking that was cancelled and never used. The cancellation state does not propagate to suppress downstream lifecycle communications. The system treats a cancelled, disputed booking the same as a completed stay.</div>
+    </div>
+
+    <div class="failure-card severity-high">
+      <div class="severity-label">High</div>
+      <div class="failure-icon">🚫</div>
+      <div class="failure-title">No Escalation Detection or Sentiment Routing</div>
+      <div class="failure-body">After I. explicitly stated "stop wasting my time" on 7 May, subsequent interactions on 25 May still triggered the same generic auto-response pattern. There is no feedback loop from customer tone/sentiment to communication strategy. Escalation signals are ignored.</div>
+    </div>
+
+    <div class="failure-card severity-high">
+      <div class="severity-label">High</div>
+      <div class="failure-icon">🧠</div>
+      <div class="failure-title">Zero Case Continuity Across Interactions</div>
+      <div class="failure-body">Agent K. (25 May) has no visibility of what happened on 7 May or any prior interaction. Each contact starts from zero - same questions, same templates, no progress. There is no shared case thread that accumulates context over time.</div>
+    </div>
+
+    <div class="failure-card severity-medium">
+      <div class="severity-label">Medium</div>
+      <div class="failure-icon">📭</div>
+      <div class="failure-title">No-Reply Addresses Block Customer Response</div>
+      <div class="failure-body">Auto-sends come from no-reply@booking.com and cs-noreply@booking.com. When the customer wants to respond to a specific message or correct an error, the channel is closed. This forces re-escalation through a different path with no context carried forward.</div>
+    </div>
+
+    <div class="failure-card severity-medium">
+      <div class="severity-label">Medium</div>
+      <div class="failure-icon">📞</div>
+      <div class="failure-title">Phone Deflection During Active Email Dialogue</div>
+      <div class="failure-body">One of the 5 auto-sends on 7 May offered phone numbers as the resolution path - while the customer was actively engaged in an email dialogue about a refund. Channel switching as a deflection tactic mid-conversation adds friction without resolution.</div>
+    </div>
+
+  </div>
+
+  <!-- Broader signal -->
+  <div class="section-title" style="margin-top: 48px;">Connection to UCC Program</div>
+  <div style="background: #fff; border-radius: 10px; border: 1px solid var(--border); padding: 24px; border-left: 4px solid var(--booking-blue);">
+    <p style="font-size: 14px; color: var(--subtext); line-height: 1.7;">
+      James asked whether Pega can help us fix automated sends sooner. This links directly to the Written Channels migration. The numbers show this isn't an outlier:
+    </p>
+    <ul style="font-size: 13.5px; color: var(--text); margin: 16px 0 16px 20px; line-height: 2;">
+      <li><strong>90% of our CS email templates are no-reply</strong> - the dead-end that trapped this customer</li>
+      <li><strong>Email CSAT sits at 49.2%</strong> - the lowest-scoring channel, and the one where this played out</li>
+      <li><strong>81.8% email re-contact rate</strong> - this customer contacted us 8+ times because auto-sends created more questions than answers</li>
+      <li><strong>54% of agent contacts are status lookups</strong> - this customer's need (refund a cancelled booking) could have been resolved without an agent</li>
+    </ul>
+    <div style="margin-top: 16px; padding: 14px; background: #F3E5F5; border-radius: 8px;">
+      <p style="font-size: 13px; color: #4A148C; font-weight: 600;">If we migrate this logic to AWS Connect as-is, we move the problem to new infrastructure without fixing it. Designing Connect with conversation awareness from day one - knowing when a customer is mid-dialogue, what data we already hold, and when to stay silent - would stop journeys like this before they start.</p>
+    </div>
+  </div>
+
+
+</main>
+
+<footer>
+  <span style="font-weight: 700; color: var(--booking-blue);">Booking.com</span> - Service & Process Design - Reconstructed from email thread, 8 June 2026 - Internal use only
+</footer>
+
+</body>
+</html>
