@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Chat Journey - Phase Overview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #1a1a2e;
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        .page-header {
+            background: linear-gradient(180deg, #002a6e 0%, #003B95 100%);
+            color: white;
+            padding: 56px 48px 48px;
+        }
+        .page-header h1 { font-size: 34px; font-weight: 800; margin-bottom: 0; }
+
+        .page-scenario {
+            background: #f0f4fa;
+            padding: 32px 48px 24px;
+            border-bottom: none;
+        }
+        .scenario-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #003B95;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .scenario-label::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #003B95;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .scenario-description {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.65;
+            margin-bottom: 16px;
+            max-width: 900px;
+        }
+        .scenario-owner {
+            font-size: 13px;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            background: #003580;
+            padding: 0 48px;
+            border-bottom: 3px solid #002a66;
+        }
+        .tab {
+            padding: 14px 28px;
+            border: none;
+            background: rgba(255,255,255,0.08);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.2s;
+            border-bottom: 5px solid transparent;
+            margin-bottom: -5px;
+        }
+        .tab:hover { color: white; background: rgba(255,255,255,0.12); }
+        .tab.active {
+            color: white;
+            background: rgba(255,255,255,0.15);
+            border-bottom-color: #febb02;
+        }
+
+        .phase-content { display: none; padding: 40px 48px; }
+        .phase-content.active { display: block; }
+
+        .intro-block {
+            background: #f3f5f8;
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            border-left: 4px solid #003580;
+        }
+        .intro-block .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #003580;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .intro-block .section-label::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #003580;
+            border-radius: 50%;
+        }
+        .intro-block p { font-size: 15px; color: #333; margin-bottom: 12px; }
+        .intro-block p:last-of-type { margin-bottom: 0; }
+        .scope-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+        .scope-tag {
+            background: white;
+            border: 1px solid #d0d7e0;
+            color: #003580;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .scope-tag.new {
+            background: #e8f4fd;
+            border-color: #006ce4;
+            color: #006ce4;
+        }
+
+        .stages-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .stage-card {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255,255,255,0.15);
+        }
+        .stage-card:last-child { border-right: none; }
+
+        .stage-header {
+            background: linear-gradient(180deg, #003580 0%, #004a9e 100%);
+            padding: 18px 14px;
+            color: white;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .stage-number {
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            margin-bottom: 10px;
+        }
+        .stage-icon { display: none; }
+        .stage-title { font-size: 16px; font-weight: 800; line-height: 1.3; letter-spacing: -0.2px; }
+        .stage-desc {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .stage-body {
+            background: white;
+            padding: 18px;
+            flex: 1;
+            border-bottom: 1px solid #e8ecf0;
+            border-right: 1px solid #a3c4e9;
+        }
+        .stage-card:first-child .stage-body { border-left: 1px solid #a3c4e9; }
+
+        .stage-description {
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .experience-block {
+            margin-bottom: 6px;
+            padding: 7px 9px;
+            border-radius: 5px;
+            background: #f8fafc;
+            flex: 1;
+        }
+        .experience-block.traveller { border-left: 3px solid #006ce4; }
+        .experience-block.agent { border-left: 3px solid #008234; }
+        .experience-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin-bottom: 5px;
+        }
+        .experience-block.traveller .experience-label { color: #006ce4; }
+        .experience-block.agent .experience-label { color: #008234; }
+        .experience-text {
+            font-size: 13.5px;
+            color: #444;
+            line-height: 1.45;
+            margin: 0;
+        }
+        .experience-section { margin-bottom: 14px; display: flex; flex-direction: column; }
+
+        .stage-bullets { list-style: none; padding: 0; }
+        .stage-bullets li {
+            font-size: 13px;
+            padding: 3px 0 3px 14px;
+            position: relative;
+            color: #333;
+            line-height: 1.4;
+        }
+        .stage-bullets li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #16803d;
+            font-weight: 700;
+        }
+        .stage-bullets.cannot li { color: #666; font-style: italic; }
+        .stage-bullets.cannot li::before { content: '•'; color: #b91c1c; }
+
+        .bullet-section-label {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .bullet-section-label.can { color: #16803d; }
+        .bullet-section-label.cannot { color: #b91c1c; }
+        .bullet-section-label:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+
+        .new-tag {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: 3px;
+            vertical-align: middle;
+        }
+
+        .comparison-wrap { overflow-x: auto; }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .comparison-table th {
+            background: linear-gradient(180deg, #003580, #004a9e);
+            color: white;
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .comparison-table td {
+            padding: 12px 18px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .comparison-table tr:nth-child(even) td { background: #f8fafc; }
+        .comparison-table tr:hover td { background: #f0f6ff; }
+        .cell-active { color: #16803d; font-weight: 600; }
+        .cell-inactive { color: #9ca3af; }
+        .cell-new { color: #006ce4; font-weight: 600; }
+
+        @media (max-width: 1200px) {
+            .stages-container {
+                display: flex;
+                overflow-x: auto;
+                gap: 0;
+            }
+            .stage-card { min-width: 220px; flex-shrink: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>Live Chat Experience Journey</h1>
+    </div>
+
+    <div class="page-scenario">
+        <div class="scenario-label">Live Chat Journey & Capability Readiness View - CCaaS AWS Amazon Connect</div>
+        <p class="scenario-description">This journey maps the traveler and agent experience for Live chat across the different delivery phases, showing capability readiness against the listed requirements and prioritisation assigned as of June 4th 2026. Each phase represents an incremental release of the live chat channel on AWS Amazon Connect, from MVP launch through to full operational maturity (labelled BAU) and beyond.</p>
+        <p class="scenario-owner">Owner: Vera Crisci - Service Design</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="showPhase('mvp', this)">Day 0/1 - MVP</button>
+        <button class="tab" onclick="showPhase('day2', this)">Day 2 - Scaling</button>
+        <button class="tab" onclick="showPhase('prebau', this)">Pre-BAU*</button>
+        <button class="tab" onclick="showPhase('bau', this)">BAU*</button>
+        <button class="tab" onclick="showPhase('day3', this)">Day 3 - 2027+</button>
+        <button class="tab" onclick="showPhase('compare', this)">Comparison</button>
+    </div>
+
+    <!-- ===================== MVP ===================== -->
+    <div id="phase-mvp" class="phase-content active">
+        <div class="intro-block">
+            <div class="section-label">Day 0 / Day 1 - MVP Journey <span style="color: #5b9bd5; font-weight: 400;">31.03 / 14.04</span></div>
+            <p>The first live chat experience for Booking.com travellers, launched on web for the MNL5 site. Travellers reach live chat through the Help Center after triage, with hardcoded eligibility in English only. Agents operate on a single-chat model with basic tooling on Pega.</p>
+            <div class="scope-tags">
+                <span class="scope-tag">Web only</span>
+                <span class="scope-tag">English only</span>
+                <span class="scope-tag">Help Center entry</span>
+                <span class="scope-tag">Hardcoded eligibility</span>
+                <span class="scope-tag">Single chat per agent</span>
+                <span class="scope-tag">VNO6 <span style="color: #5b9bd5; font-weight: 400;">Day0</span></span>
+                <span class="scope-tag">MNL5 <span style="color: #5b9bd5; font-weight: 400;">Day1</span></span>
+            </div>
+        </div>
+
+        <div class="stages-container">
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 01</div>
+                    <span class="stage-icon">📞</span>
+                    <div class="stage-title">Entry & Contact</div>
+                    <div class="stage-desc">Traveller reaches live chat via Help Center triage on web.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Opens Help Center on web, navigates triage questions about their booking issue, and is offered live chat if eligible (English, active reservation, within operating hours). If chat is unavailable, sees phone or email as alternatives.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Has no visibility at this stage. Is unaware of incoming travellers until a chat is assigned. Cannot influence which travellers reach them or see queue volume.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Web Help Center triage entry</li>
+                        <li>Self-service options before LC</li>
+                        <li>Fallback to phone/email if LC unavailable</li>
+                        <li>Kill switch via feature flag</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>App entry (iOS/Android)</li>
+                        <li>AITS chatbot handover to LC</li>
+                        <li>PO reservation access</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 02</div>
+                    <span class="stage-icon">🪪</span>
+                    <div class="stage-title">Identification</div>
+                    <div class="stage-desc">Traveller authenticated; reservation context retrieved.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Is automatically authenticated via their logged-in session. Does not need to provide booking details - the system retrieves their reservation context behind the scenes.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives the traveller's booking number, topic selected during triage, and prior CS interaction history on Pega. Does not see AITS context or multiple reservations.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Hardcoded eligibility (context, EN, hours)</li>
+                        <li>Agent scheduling check</li>
+                        <li>Reservation context retrieval</li>
+                        <li>Booking #, topic, prior CS interactions</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Dynamic eligibility via API</li>
+                        <li>Vertical-agnostic identification</li>
+                        <li>AITS context handover</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 03</div>
+                    <span class="stage-icon">🏷️</span>
+                    <div class="stage-title">Classification</div>
+                    <div class="stage-desc">Topic from triage determines categorisation; English only.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Has already selected a topic during Help Center triage. Waits to be connected without any further input required. The topic selection determines how the request is categorised.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives the triage topic and reservation type as context. Does not get AI-generated summaries, intent signals, or sentiment analysis before the chat starts.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Topic from HC triage steps</li>
+                        <li>Language detection (EN only)</li>
+                        <li>Reservation type context</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>AITS intent/sentiment</li>
+                        <li>AI-generated summary for agent</li>
+                        <li>Smart channel steering</li>
+                        <li>Queue-aware classification</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 04</div>
+                    <span class="stage-icon">📋</span>
+                    <div class="stage-title">Prioritization</div>
+                    <div class="stage-desc">Traveller queued; routed to available agent in ring-fenced group.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Is placed in queue and sees a longest-wait-time estimate. Receives system welcome messages while waiting. Cannot leave and get notified - must stay on the page.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives the next chat from the ring-fenced queue based on availability only. Has no control over assignment, cannot see queue depth, and cannot be selected by Genius level or skill.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Route to available agent (ring-fenced group)</li>
+                        <li>Queue expectation (longest wait)</li>
+                        <li>Welcome/system messages</li>
+                        <li>Acceptable latency matching</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Route by Genius/attributes</li>
+                        <li>Escalation to senior</li>
+                        <li>Push notifications while queued</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 05</div>
+                    <span class="stage-icon">🛎️</span>
+                    <div class="stage-title">Service</div>
+                    <div class="stage-desc">Real-time text interaction on web; single chat per agent.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Chats in real-time on web with typing indicators and read receipts. Can click URLs shared by the agent. Can leave the tab and return within the session timeout. Cannot send images, files, or receive push notifications.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Handles one chat at a time on Pega with pre-defined templates and clickable URLs. Can make outbound calls to partners during the session. Manages inactivity manually - no automated timeout rules. Cannot receive attachments from travellers.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Real-time text messaging (web)</li>
+                        <li>Typing indicators, read receipts</li>
+                        <li>Clickable URLs (plain text)</li>
+                        <li>Pre-defined agent templates</li>
+                        <li>Outbound calls during chat</li>
+                        <li>Case ownership during long processes</li>
+                        <li>Leave tab & resume (session timeout)</li>
+                        <li>Manual inactivity workaround</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Route to same agent on reconnection</li>
+                        <li>Multi-channel case management</li>
+                        <li>Attachments (images, PDF, video)</li>
+                        <li>Translations</li>
+                        <li>Concurrent chats</li>
+                        <li>Push notifications on reply</li>
+                        <li>Contextual templates</li>
+                        <li>Automated inactivity rules</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 06</div>
+                    <span class="stage-icon">🔄</span>
+                    <div class="stage-title">Close the Loop</div>
+                    <div class="stage-desc">Session ended; transcript downloadable; follow-up via email/phone.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Session ends and can download the transcript on web. Any follow-up from the agent arrives via email or phone - not in the chat thread. Cannot access past chat transcripts from an inbox.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Closes the session and wraps up the service case in Pega. Handles follow-up work separately via email or phone. Quality is reviewed via Qualtrics. Basic CSAT, AHT, and productivity reports available.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Agent close session & wrap up</li>
+                        <li>Follow-up via email/phone</li>
+                        <li>Follow-up work in Pega</li>
+                        <li>Transcript download (web)</li>
+                        <li>QM review (Qualtrics)</li>
+                        <li>CSAT, AHT, productivity reports</li>
+                        <li>GDPR + data retention compliant</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Async follow-up in thread</li>
+                        <li>Inbox transcript access</li>
+                        <li>Restart/resume closed chat</li>
+                        <li>All standard CS metrics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== DAY 2 ===================== -->
+    <div id="phase-day2" class="phase-content">
+        <div class="intro-block">
+            <div class="section-label">Day 2 - MNL5 Scaling Journey <span style="color: #5b9bd5; font-weight: 400;">02.06</span></div>
+            <p>Live chat expands to iOS and Android apps, introduces AITS as an entry point with warm handover, adds dynamic eligibility via API, push notifications, multi-reservation support, and significantly enhanced agent tooling including AI summaries and contextual templates.</p>
+            <div class="scope-tags">
+                <span class="scope-tag new">+ iOS / Android</span>
+                <span class="scope-tag new">+ AITS entry</span>
+                <span class="scope-tag new">+ Dynamic eligibility API</span>
+                <span class="scope-tag new">+ Push notifications</span>
+                <span class="scope-tag new">+ Multi-reservation</span>
+                <span class="scope-tag new">+ AI summaries</span>
+                <span class="scope-tag">English only</span>
+            </div>
+        </div>
+
+        <div class="stages-container">
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 01</div>
+                    <span class="stage-icon">📞</span>
+                    <div class="stage-title">Entry & Contact</div>
+                    <div class="stage-desc">Traveller reaches chat from web or app; AITS may recommend LC.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can start a chat from web or app (iOS/Android) Help Center. AITS chatbot may recommend live chat and automatically sends the conversation summary as the first message - so the agent already has context. PO reservations now supported.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Has no visibility at this stage. The system determines whether to offer live chat based on dynamic eligibility API, agent scheduling, and AITS recommendation signals.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>iOS/Android Help Center <span class="new-tag">new</span></li>
+                        <li>AITS recommends LC <span class="new-tag">new</span></li>
+                        <li>AITS summary auto-sent as 1st msg <span class="new-tag">new</span></li>
+                        <li>PO reservation access <span class="new-tag">new</span></li>
+                        <li>Web Help Center triage</li>
+                        <li>Fallback + kill switch</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Fluid same-widget AITS → LC</li>
+                        <li>Multi-vertical (accom only)</li>
+                        <li>White-label for partners</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 02</div>
+                    <span class="stage-icon">🪪</span>
+                    <div class="stage-title">Identification</div>
+                    <div class="stage-desc">Dynamic eligibility; AITS context and multi-reservation retrieved.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Is identified with full context including multiple reservations. AITS conversation history is carried over so there is no need to repeat the issue. Dynamic eligibility means smarter access decisions.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Can see AITS conversation context, multi-reservation details, and prior interactions before the chat starts. Dynamic eligibility API controls which travellers reach them.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Dynamic eligibility API <span class="new-tag">new</span></li>
+                        <li>AITS context retrieved <span class="new-tag">new</span></li>
+                        <li>Multi-reservation lookup <span class="new-tag">new</span></li>
+                        <li>Reservation context + prior interactions</li>
+                        <li>Agent scheduling check</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Vertical-agnostic identification</li>
+                        <li>Wait time in eligibility logic</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 03</div>
+                    <span class="stage-icon">🏷️</span>
+                    <div class="stage-title">Classification</div>
+                    <div class="stage-desc">AITS warm handover with AI reservation summary for agent.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Does not need to re-explain the issue. The AITS conversation is handed over as context, and an AI-generated reservation summary helps the agent understand the situation immediately.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives AITS warm handover context including intent, topic, and an AI-generated reservation summary. Can review this before engaging the traveller - significantly reducing repeat questions.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>AITS warm handover context <span class="new-tag">new</span></li>
+                        <li>AI reservation summary <span class="new-tag">new</span></li>
+                        <li>Topic from triage</li>
+                        <li>Language detection</li>
+                        <li>Reservation type context</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Smart channel steering</li>
+                        <li>Eligibility experimentation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 04</div>
+                    <span class="stage-icon">📋</span>
+                    <div class="stage-title">Prioritization</div>
+                    <div class="stage-desc">Attribute-based routing; push notifications while queued.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Receives push notifications while waiting in queue. Can leave the app and be alerted when an agent is ready. Is routed to agents matched by language and Genius level for better service quality.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives chats routed by language, Genius level, and attributes for better matching. RTA can close the live chat offer if capacity is reached. Still handles one chat at a time.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Route by lang + Genius + attrs <span class="new-tag">new</span></li>
+                        <li>Push notification for unread <span class="new-tag">new</span></li>
+                        <li>RTA can close LC offer <span class="new-tag">new</span></li>
+                        <li>Queue expectation + welcome</li>
+                        <li>Fallback to other channels</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Escalation to senior</li>
+                        <li>Reply from push notification</li>
+                        <li>Concurrent chats</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 05</div>
+                    <span class="stage-icon">🛎️</span>
+                    <div class="stage-title">Service</div>
+                    <div class="stage-desc">Native app chat; contextual templates; AI summaries; rich text.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can chat natively on iOS/Android with rich text messages from the agent, clickable landing page links, and timeout alerts. Can discuss multiple reservations in one session. Still cannot send attachments or receive translations.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Uses contextual templates, AI summaries of past chats, grammar and autocorrect tools, and rich text formatting. Can see timeout/pending alerts. Handles multi-reservation support. Still one chat at a time, no automated inactivity rules.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Native iOS/Android chat <span class="new-tag">new</span></li>
+                        <li>Contextual templates <span class="new-tag">new</span></li>
+                        <li>Landing page URLs in-chat <span class="new-tag">new</span></li>
+                        <li>Timeout/pending alerts <span class="new-tag">new</span></li>
+                        <li>AI summaries of past LCs <span class="new-tag">new</span></li>
+                        <li>Grammar/autocorrect <span class="new-tag">new</span></li>
+                        <li>Rich text agent→traveller <span class="new-tag">new</span></li>
+                        <li>Multi-reservation support <span class="new-tag">new</span></li>
+                        <li>Real-time text, indicators, URLs</li>
+                        <li>Case ownership during long processes</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Route to same agent on reconnection</li>
+                        <li>Multi-channel case management</li>
+                        <li>Attachments</li>
+                        <li>Rich text traveller→agent (TBD)</li>
+                        <li>Translations</li>
+                        <li>Concurrent chats</li>
+                        <li>Automated inactivity rules</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 06</div>
+                    <span class="stage-icon">🔄</span>
+                    <div class="stage-title">Close the Loop</div>
+                    <div class="stage-desc">Full CS metrics; real-time agent state API; AI Track integration.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can download the transcript. Follow-up still arrives via email or phone - not within the chat thread. Cannot access transcripts from a conversation inbox or restart ended sessions.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Closes and wraps up with full CS metrics now tracked. Real-time agent state API feeds into WFM for workforce planning. AI Track integration available for performance insights. QM review process in place.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>All standard CS metrics <span class="new-tag">new</span></li>
+                        <li>Real-time agent state API <span class="new-tag">new</span></li>
+                        <li>AI Track integration <span class="new-tag">new</span></li>
+                        <li>Agent close + wrap up</li>
+                        <li>Follow-up via email/phone</li>
+                        <li>Transcript download</li>
+                        <li>QM review</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Async follow-up in thread</li>
+                        <li>Inbox transcript access</li>
+                        <li>Restart closed session</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== PRE-BAU ===================== -->
+    <div id="phase-prebau" class="phase-content">
+        <div class="intro-block">
+            <div class="section-label">Pre-BAU* - Hardening Phase <span style="color: #5b9bd5; font-weight: 400;">02.06 - 30.06</span></div>
+            <p>The hardening phase focuses on security, robustness and operational confidence. Attachments become available with malware scanning, message content is actively filtered and redacted, automated inactivity rules replace the manual workaround, and latency SLAs are validated end-to-end. These enhancements primarily affect Stage 05 (Service) and system-level resilience.</p>
+            <p style="font-size: 12px; color: #666; margin-top: 12px; font-style: italic;">*BAU = Business As Usual - the state where Live Chat is fully handed over to CS Operations as a stable, production-grade channel with no further program-level delivery dependencies.</p>
+            <div class="scope-tags">
+                <span class="scope-tag new">+ Attachments</span>
+                <span class="scope-tag new">+ Security redaction</span>
+                <span class="scope-tag new">+ Automated inactivity</span>
+                <span class="scope-tag new">+ Latency SLAs confirmed</span>
+            </div>
+        </div>
+
+        <div class="stages-container">
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 01</div>
+                    <span class="stage-icon">📞</span>
+                    <div class="stage-title">Entry & Contact</div>
+                    <div class="stage-desc">Traveller reaches chat from web or app; AITS and PO supported.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can start a chat from web or app Help Center. AITS may recommend live chat and automatically sends conversation context as the first message. PO reservations supported.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Has no visibility at this stage. The system determines whether to offer live chat based on dynamic eligibility API, agent scheduling, and AITS recommendation signals.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Web + App Help Center</li>
+                        <li>AITS recommendation</li>
+                        <li>PO reservations</li>
+                        <li>Fallback + kill switch</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 02</div>
+                    <span class="stage-icon">🪪</span>
+                    <div class="stage-title">Identification</div>
+                    <div class="stage-desc">Dynamic eligibility; full context including multi-reservation.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Is identified with full context including multiple reservations. AITS conversation history is carried over so there is no need to repeat the issue. Dynamic eligibility controls access.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Can see AITS conversation context, multi-reservation details, and prior interactions before the chat starts. Dynamic eligibility API controls which travellers reach them.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Dynamic eligibility API</li>
+                        <li>AITS context retrieved</li>
+                        <li>Multi-reservation lookup</li>
+                        <li>Reservation context</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 03</div>
+                    <span class="stage-icon">🏷️</span>
+                    <div class="stage-title">Classification</div>
+                    <div class="stage-desc">AITS warm handover with AI summary; topic and language context.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Does not need to re-explain the issue. The AITS conversation is handed over as context, and an AI-generated reservation summary helps the agent understand the situation immediately.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives AITS warm handover context including intent, topic, and an AI-generated reservation summary. Can review this before engaging the traveller.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>AITS warm handover context</li>
+                        <li>AI reservation summary</li>
+                        <li>Topic + language + type</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 04</div>
+                    <span class="stage-icon">📋</span>
+                    <div class="stage-title">Prioritization</div>
+                    <div class="stage-desc">Attribute routing with push notifications; RTA controls.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Receives push notifications while waiting in queue. Can leave the app and be alerted when an agent is ready. Is routed to agents matched by language and Genius level.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives chats routed by language, Genius level, and attributes. RTA can close the live chat offer if capacity is reached. Still handles one chat at a time.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Route by lang + Genius + attrs</li>
+                        <li>Push notifications</li>
+                        <li>RTA controls</li>
+                        <li>Queue expectation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 05</div>
+                    <span class="stage-icon">🛎️</span>
+                    <div class="stage-title">Service</div>
+                    <div class="stage-desc">Attachments, security scanning, automated inactivity, latency SLAs.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can now send and receive images, PDFs, and videos during the chat. Harmful content is automatically blocked. Session auto-closes on inactivity with clear follow-up actions defined.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Can receive attachments from travellers (malware-scanned). Messages are automatically redacted per security rules. Automated AWS inactivity rules replace the manual workaround. Confirmed latency SLAs.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Newly available</div>
+                    <ul class="stage-bullets">
+                        <li>Send/receive images, PDFs, videos <span class="new-tag">new</span></li>
+                        <li>Malware + illegal content scanning <span class="new-tag">new</span></li>
+                        <li>Redact/block per security filters <span class="new-tag">new</span></li>
+                        <li>Full hyperlink + content filtering <span class="new-tag">new</span></li>
+                        <li>Automated AWS inactivity rules <span class="new-tag">new</span></li>
+                        <li>Disconnection + follow-up actions <span class="new-tag">new</span></li>
+                        <li>Confirmed latency SLAs <span class="new-tag">validated</span></li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Route to same agent on reconnection</li>
+                        <li>Multi-channel case management</li>
+                        <li>Translations</li>
+                        <li>Concurrent chats</li>
+                        <li>Session restart</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 06</div>
+                    <span class="stage-icon">🔄</span>
+                    <div class="stage-title">Close the Loop</div>
+                    <div class="stage-desc">Full metrics and reporting; GDPR compliant; QM review.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can download the transcript. Follow-up still arrives via email or phone - not within the chat thread. Cannot access transcripts from a conversation inbox or restart ended sessions.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Closes and wraps up with full CS metrics tracked. Real-time agent state API feeds into WFM for workforce planning. AI Track integration available. QM review process in place.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>All standard CS metrics</li>
+                        <li>Real-time agent state API</li>
+                        <li>AI Track integration</li>
+                        <li>QM review</li>
+                        <li>Transcript download</li>
+                        <li>GDPR + data retention</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== BAU ===================== -->
+    <div id="phase-bau" class="phase-content">
+        <div class="intro-block">
+            <div class="section-label">BAU* - Operational Phase <span style="color: #5b9bd5; font-weight: 400;">30.06</span></div>
+            <p>Live chat is now a stable, production-grade channel fully handed over to CS Operations. This phase focuses on expanding language support through real-time translations, localising the UI, enabling vertical-agnostic identification, and building toward inbox transcript access. Discovery work begins on concurrency, VoIP escalation, and senior escalation paths.</p>
+            <p style="font-size: 12px; color: #666; margin-top: 12px; font-style: italic;">*BAU = Business As Usual - the state where Live Chat operates as a stable production channel with no program-level delivery dependencies. Enhancements are driven by operational priorities.</p>
+            <div class="scope-tags">
+                <span class="scope-tag new">+ Translations</span>
+                <span class="scope-tag new">+ Localised UI</span>
+                <span class="scope-tag new">+ Vertical-agnostic ID</span>
+                <span class="scope-tag new">+ Inbox transcripts</span>
+                <span class="scope-tag new">+ Translation-based routing</span>
+                <span class="scope-tag">Discovery: concurrency, VoIP, escalation</span>
+            </div>
+        </div>
+
+        <div class="stages-container">
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 01</div>
+                    <span class="stage-icon">📞</span>
+                    <div class="stage-title">Entry & Contact</div>
+                    <div class="stage-desc">Localised UI; vertical-agnostic entry; multi-language support.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can start a chat from web or app Help Center in their own language with a fully localised UI. AITS may recommend live chat and automatically sends conversation context. Entry now supports all verticals.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Has no visibility at this stage. System handles eligibility across verticals and languages via dynamic API.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Web + App Help Center</li>
+                        <li>AITS recommendation</li>
+                        <li>PO reservations</li>
+                        <li>Localised UI <span class="new-tag">new</span></li>
+                        <li>Vertical-agnostic entry <span class="new-tag">new</span></li>
+                        <li>Fallback + kill switch</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Fluid same-widget AITS to LC transition</li>
+                        <li>Smart channel steering</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 02</div>
+                    <span class="stage-icon">🪪</span>
+                    <div class="stage-title">Identification</div>
+                    <div class="stage-desc">Vertical-agnostic identification across all booking types.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Is identified regardless of booking vertical - accommodation, cars, or flights. Multi-reservation access and AITS context carried over without needing to repeat information.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Can identify travellers across all verticals. Receives AITS context, multi-reservation details, and dynamic eligibility signals. PO reservation handling under investigation.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Dynamic eligibility API</li>
+                        <li>AITS context retrieved</li>
+                        <li>Multi-reservation lookup</li>
+                        <li>Vertical-agnostic identification <span class="new-tag">new</span></li>
+                        <li>PO reservation handling (investigation) <span class="new-tag">new</span></li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Wait time in eligibility logic</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 03</div>
+                    <span class="stage-icon">🏷️</span>
+                    <div class="stage-title">Classification</div>
+                    <div class="stage-desc">Translation-capability routing; localised system messages.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Does not need to re-explain the issue. AITS conversation is handed over as context. Chat UI and system messages are now in the traveller's own language.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives AITS warm handover context and AI-generated reservation summary. Translation-capable routing means agents are matched by language skill including translated languages.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>AITS warm handover context</li>
+                        <li>AI reservation summary</li>
+                        <li>Topic + language + type</li>
+                        <li>Translation-capability routing <span class="new-tag">new</span></li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Smart channel steering</li>
+                        <li>Eligibility experimentation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 04</div>
+                    <span class="stage-icon">📋</span>
+                    <div class="stage-title">Prioritization</div>
+                    <div class="stage-desc">Routing includes native + translated language matching.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Receives push notifications while waiting in queue. Can leave the app and be alerted when an agent is ready. Is routed to agents matched by language (native or translated) and Genius level.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives chats routed by language (including translation capability), Genius level, and attributes. RTA can close LC offer if capacity is reached. Still handles one chat at a time.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Route by lang (native + translated) <span class="new-tag">new</span></li>
+                        <li>Push notifications</li>
+                        <li>RTA controls</li>
+                        <li>Queue expectation</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Escalation to senior (discovery)</li>
+                        <li>Concurrent chat assignment (discovery)</li>
+                        <li>Reply from push notification</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 05</div>
+                    <span class="stage-icon">🛎️</span>
+                    <div class="stage-title">Service</div>
+                    <div class="stage-desc">Translations; localised UI; VoIP and concurrency in discovery.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can chat with real-time translation in their own language. UI is fully localised. Attachments, rich text, and timeout alerts available. VoIP call from widget under discovery.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Can support travellers in languages beyond native proficiency via real-time translation. Uses contextual templates, AI summaries, grammar tools. Automated inactivity rules in place. Concurrency and VoIP under discovery.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Translations both ways <span class="new-tag">new</span></li>
+                        <li>Localised chat UI <span class="new-tag">new</span></li>
+                        <li>Attachments + security scanning</li>
+                        <li>Automated inactivity rules</li>
+                        <li>Contextual templates + AI summaries</li>
+                        <li>Rich text + grammar tools</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Concurrent chats (discovery)</li>
+                        <li>VoIP from widget (discovery)</li>
+                        <li>Session restart</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 06</div>
+                    <span class="stage-icon">🔄</span>
+                    <div class="stage-title">Close the Loop</div>
+                    <div class="stage-desc">Inbox transcript access; agent reply alerts in discovery.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can access past chat transcripts from the conversation inbox. Follow-up still arrives via email or phone. Cannot restart ended sessions or receive async messages in the thread.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Closes and wraps up with full CS metrics tracked. Real-time agent state API feeds into WFM. Agent reply-time alerts under discovery. Inbox transcript access available for travellers.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Inbox transcript access <span class="new-tag">new</span></li>
+                        <li>All standard CS metrics</li>
+                        <li>Real-time agent state API</li>
+                        <li>AI Track integration</li>
+                        <li>QM review</li>
+                        <li>GDPR + data retention</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Async follow-up in thread</li>
+                        <li>Restart closed session</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== DAY 3 ===================== -->
+    <div id="phase-day3" class="phase-content">
+        <div class="intro-block">
+            <div class="section-label">Day 3 - 2027 Onwards <span style="color: #5b9bd5; font-weight: 400;">01.01</span></div>
+            <p>The full vision for live chat at Booking.com. Travellers experience a seamless, multilingual, omni-channel support journey with async continuity. Agents handle concurrent conversations with AI assistance, real-time translations, and sophisticated routing. Operations scale globally with full WFM integration.</p>
+            <div class="scope-tags">
+                <span class="scope-tag new">+ Async messaging</span>
+                <span class="scope-tag new">+ Translations</span>
+                <span class="scope-tag new">+ Agent concurrency</span>
+                <span class="scope-tag new">+ Smart steering</span>
+                <span class="scope-tag new">+ Fluid AITS</span>
+                <span class="scope-tag new">+ Multi-language</span>
+                <span class="scope-tag new">+ Full WFM</span>
+            </div>
+        </div>
+
+        <div class="stages-container">
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 01</div>
+                    <span class="stage-icon">📞</span>
+                    <div class="stage-title">Entry & Contact</div>
+                    <div class="stage-desc">Any language, any vertical; fluid AITS transition; smart steering.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can start chat in any language, from any vertical (accommodation, cars, flights), with a fluid transition from AITS in the same widget. Smart channel steering recommends the best support channel based on needs and supply. Fully localised UI.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Has no visibility at entry. Eligibility experimentation and smart steering run behind the scenes. System supports white-label partner configurations and multi-vertical routing.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Fluid AITS → LC same widget <span class="new-tag">new</span></li>
+                        <li>Smart channel steering <span class="new-tag">new</span></li>
+                        <li>Vertical-agnostic (accom/cars/flights) <span class="new-tag">new</span></li>
+                        <li>White-label for partners <span class="new-tag">new</span></li>
+                        <li>Fully localised UI <span class="new-tag">new</span></li>
+                        <li>Eligibility experimentation <span class="new-tag">new</span></li>
+                        <li>Web + App HC + AITS</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 02</div>
+                    <span class="stage-icon">🪪</span>
+                    <div class="stage-title">Identification</div>
+                    <div class="stage-desc">Vertical-agnostic; all-language support; full history.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can access chat in any language and for any booking vertical. Full reservation history and AITS context carried over - no need to repeat anything regardless of language.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Can identify travellers across all verticals and languages. Full reservation history, AITS context, and dynamic eligibility available. Translations removes language barriers.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Vertical-agnostic ID <span class="new-tag">new</span></li>
+                        <li>All-language support <span class="new-tag">new</span></li>
+                        <li>Dynamic eligibility API</li>
+                        <li>AITS context + multi-reservation</li>
+                        <li>Full reservation history</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 03</div>
+                    <span class="stage-icon">🏷️</span>
+                    <div class="stage-title">Classification</div>
+                    <div class="stage-desc">Smart steering by needs, context, and supply; translation routing.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Receives a prioritised channel recommendation tailored to their specific needs, context, and current supply. Does not need to re-explain the issue - full AITS context is handed over seamlessly.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives classification enriched with smart steering signals, translation capability routing, AITS warm handover, and AI summary. Supply-aware classification optimises agent utilisation.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Smart steering: needs + context + supply <span class="new-tag">new</span></li>
+                        <li>Translation capability routing <span class="new-tag">new</span></li>
+                        <li>AITS warm handover + AI summary</li>
+                        <li>Topic + language + type</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 04</div>
+                    <span class="stage-icon">📋</span>
+                    <div class="stage-title">Prioritization</div>
+                    <div class="stage-desc">Concurrent assignment; escalation; reply from push notification.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can reply directly from push notifications. Receives fully localised queue messages. Escalation to a senior agent happens transparently with full context preserved - no need to re-explain.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Can handle multiple concurrent chat assignments. Can escalate to seniors with full context preserved. Routing considers attributes, translation capability, and current concurrency load.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Escalate to senior w/ context <span class="new-tag">new</span></li>
+                        <li>Agent concurrency assignment <span class="new-tag">new</span></li>
+                        <li>Reply from push notification <span class="new-tag">new</span></li>
+                        <li>Fully localised messages <span class="new-tag">new</span></li>
+                        <li>Route by attrs + translation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 05</div>
+                    <span class="stage-icon">🛎️</span>
+                    <div class="stage-title">Service</div>
+                    <div class="stage-desc">Full feature set: translation, concurrency, VoIP, forms, reactions.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can chat in own language with real-time translation, react to messages (like/dislike/love), reply to specific messages, fill structured forms (dates, names), escalate to VoIP call from the widget, and restart ended sessions.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Handles multiple concurrent chats with AI reply suggestions, real-time translation both ways, embedded Pega UI, and multi-channel management. Can route back to the same traveller on reconnection. Live and async work simultaneously.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Translations both ways <span class="new-tag">new</span></li>
+                        <li>Reply suggestions <span class="new-tag">new</span></li>
+                        <li>Reactions (Like/Dislike/Love) <span class="new-tag">new</span></li>
+                        <li>Reply to specific message <span class="new-tag">new</span></li>
+                        <li>Form elements (dates, names) <span class="new-tag">new</span></li>
+                        <li>Agent concurrent chats <span class="new-tag">new</span></li>
+                        <li>VoIP call from widget <span class="new-tag">new</span></li>
+                        <li>Session restart after end <span class="new-tag">new</span></li>
+                        <li>Multi-channel management <span class="new-tag">new</span></li>
+                        <li>Route to same agent on reconnection <span class="new-tag">new</span></li>
+                        <li>Live + async simultaneously <span class="new-tag">new</span></li>
+                        <li>Embedded Pega UI + AI <span class="new-tag">new</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 06</div>
+                    <span class="stage-icon">🔄</span>
+                    <div class="stage-title">Close the Loop</div>
+                    <div class="stage-desc">Async thread continuity; full WFM; inbox access anytime.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Can receive async follow-ups in the same chat thread, access transcripts anytime from the conversation inbox, reply to async messages, and see all communications chronologically in one place.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Can send async follow-ups in the live chat thread. Full WFM integration with cross-capacity planning, intraday monitoring, multi-site/multi-language operations, and self-service configuration.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Async msgs in LC thread <span class="new-tag">new</span></li>
+                        <li>Traveller replies to async <span class="new-tag">new</span></li>
+                        <li>Chronological UI all comms <span class="new-tag">new</span></li>
+                        <li>Inbox transcripts anytime <span class="new-tag">new</span></li>
+                        <li>Send transcript on request <span class="new-tag">new</span></li>
+                        <li>Full WFM integration <span class="new-tag">new</span></li>
+                        <li>Cross-capacity + intraday <span class="new-tag">new</span></li>
+                        <li>Multi-site, multi-language <span class="new-tag">new</span></li>
+                        <li>Self-service config <span class="new-tag">new</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== COMPARISON ===================== -->
+    <div id="phase-compare" class="phase-content">
+        <div class="intro-block">
+            <div class="section-label">Capability Progression Across Delivery Phases</div>
+            <p>Side-by-side a comparison showing how each capability evolves across the delivery phases. Green indicates available functionalities, blue highlights newly added.</p>
+        </div>
+
+        <div class="comparison-wrap">
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th style="min-width:140px">Capability</th>
+                    <th>Day 0/1 (MVP)</th>
+                    <th>Day 2 (Scale)</th>
+                    <th>Pre-BAU</th>
+                    <th>BAU</th>
+                    <th>Day 3 (2027+)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Entry point</strong></td><td class="cell-active">Web HC only</td><td class="cell-new">+ App HC + AITS</td><td class="cell-inactive">-</td><td class="cell-new">+ Vertical-agnostic</td><td class="cell-new">+ Fluid AITS transition</td></tr>
+                <tr><td><strong>Platform</strong></td><td class="cell-active">Web only</td><td class="cell-new">+ iOS / Android</td><td class="cell-inactive">-</td><td class="cell-inactive">-</td><td class="cell-new">+ White-label partners</td></tr>
+                <tr><td><strong>Language</strong></td><td class="cell-active">English only</td><td>English only</td><td class="cell-inactive">-</td><td class="cell-new">Translations</td><td>All languages</td></tr>
+                <tr><td><strong>Eligibility</strong></td><td class="cell-active">Hardcoded frontend</td><td class="cell-new">Dynamic API</td><td class="cell-inactive">-</td><td>Dynamic API</td><td class="cell-new">Smart steering + experimentation</td></tr>
+                <tr><td><strong>Notifications</strong></td><td class="cell-inactive">None</td><td class="cell-new">Push (view only)</td><td class="cell-inactive">-</td><td>Push (view only)</td><td class="cell-new">Push (reply from notif)</td></tr>
+                <tr><td><strong>Attachments</strong></td><td class="cell-inactive">None</td><td class="cell-inactive">None</td><td class="cell-new">Images / PDF / video + scanning</td><td>Available</td><td>-</td></tr>
+                <tr><td><strong>Security</strong></td><td class="cell-active">Basic URLs</td><td class="cell-new">Rich text (agent-traveller)</td><td class="cell-new">Full redaction / blocking</td><td>Full redaction</td><td>-</td></tr>
+                <tr><td><strong>Inactivity</strong></td><td class="cell-active">Manual workaround</td><td>Manual workaround</td><td class="cell-new">Automated AWS rules</td><td>Automated</td><td class="cell-new">+ Session restart</td></tr>
+                <tr><td><strong>Agent concurrency</strong></td><td class="cell-active">1 chat</td><td>1 chat</td><td>1 chat</td><td>1 chat (discovery)</td><td class="cell-new">Multiple simultaneous</td></tr>
+                <tr><td><strong>Post-chat</strong></td><td class="cell-active">Email / phone follow-up</td><td>Same</td><td>Same</td><td class="cell-new">+ Inbox transcripts</td><td class="cell-new">Full async thread continuity</td></tr>
+                <tr><td><strong>Routing</strong></td><td class="cell-active">Basic (availability)</td><td class="cell-new">+ Attributes / Genius</td><td class="cell-inactive">-</td><td class="cell-new">+ Translation routing</td><td class="cell-new">+ Escalation + same-agent</td></tr>
+                <tr><td><strong>Case ownership</strong></td><td class="cell-active">Long-process handling</td><td>Same</td><td>Same</td><td>Same</td><td class="cell-new">+ Reconnect to same agent + multi-channel</td></tr>
+                <tr><td><strong>Transcript</strong></td><td class="cell-active">Download in-session</td><td>Same</td><td>Same</td><td class="cell-new">Inbox access</td><td>Inbox access anytime</td></tr>
+                <tr><td><strong>Agent tools</strong></td><td class="cell-active">Basic templates</td><td class="cell-new">+ Context, AI summaries, grammar</td><td class="cell-inactive">-</td><td>+ Translation tools</td><td class="cell-new">+ Suggestions, concurrent UI</td></tr>
+                <tr><td><strong>Translations</strong></td><td class="cell-inactive">None</td><td class="cell-inactive">None</td><td class="cell-inactive">None</td><td class="cell-new">Real-time both ways</td><td>All languages</td></tr>
+                <tr><td><strong>WFM</strong></td><td class="cell-active">Basic reporting</td><td class="cell-new">Agent state API</td><td class="cell-inactive">-</td><td>Agent state API</td><td class="cell-new">Full planning integration</td></tr>
+                <tr><td><strong>Multi-reservation</strong></td><td class="cell-inactive">Single only</td><td class="cell-new">Agent + Frontend</td><td class="cell-inactive">-</td><td>Available</td><td>-</td></tr>
+                <tr><td><strong>AITS context</strong></td><td class="cell-inactive">None</td><td class="cell-new">Warm handover + auto 1st msg</td><td class="cell-inactive">-</td><td>Warm handover</td><td class="cell-new">Full fluid transition</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <footer style="padding: 18px 48px; font-size: 12px; color: #7a8599; border-top: 1px solid #dfe3ea; margin-top: 0;">
+        Source: <a href="https://docs.google.com/spreadsheets/d/1qM9UXArLj7hM2NlAqJugt8JIH4ylgiWQ5JY3oO4PuBc/edit?gid=1782619886#gid=1782619886" style="color: #006ce4; text-decoration: none;">Live Chat Requirements Master</a> - prioritisation as of June 2026.
+    </footer>
+
+    <script>
+        function showPhase(phase, btn) {
+            document.querySelectorAll('.phase-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('phase-' + phase).classList.add('active');
+            btn.classList.add('active');
+            equalizeExperienceHeights();
+        }
+
+        function equalizeExperienceHeights() {
+            document.querySelectorAll('.stages-container').forEach(container => {
+                const sections = container.querySelectorAll('.experience-section');
+                sections.forEach(s => s.style.minHeight = '');
+                let maxHeight = 0;
+                sections.forEach(s => {
+                    if (s.offsetHeight > maxHeight) maxHeight = s.offsetHeight;
+                });
+                sections.forEach(s => s.style.minHeight = maxHeight + 'px');
+
+                const headers = container.querySelectorAll('.stage-header');
+                headers.forEach(h => h.style.minHeight = '');
+                let maxHeaderHeight = 0;
+                headers.forEach(h => {
+                    if (h.offsetHeight > maxHeaderHeight) maxHeaderHeight = h.offsetHeight;
+                });
+                headers.forEach(h => h.style.minHeight = maxHeaderHeight + 'px');
+            });
+        }
+
+        window.addEventListener('load', equalizeExperienceHeights);
+        window.addEventListener('resize', equalizeExperienceHeights);
+    </script>
+</body>
+</html>

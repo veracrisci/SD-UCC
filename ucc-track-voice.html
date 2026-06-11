@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Track | UCC Service Design Repository</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --ink: #090034;
+    --muted: #6B6B6B;
+    --border: #E8E8E8;
+    --card: #FFFFFF;
+    --booking-blue: #003B95;
+    --action-blue: #006CE4;
+    --energy-blue: #3FD0FC;
+    --accent-yellow: #FFB700;
+    --green: #008009;
+    --green-light: #E8F8E8;
+    --red: #CC0000;
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2.5rem;
+    --space-xl: 4rem;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  .hero {
+    background: var(--booking-blue);
+    color: white;
+    padding: 6rem 8vw 4rem;
+  }
+  .hero h3 { color: var(--energy-blue); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; }
+  .hero h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1rem; }
+  .hero .subtitle { font-size: clamp(1rem, 1.5vw, 1.2rem); color: rgba(255,255,255,0.75); max-width: 650px; }
+  .hero .author { color: var(--energy-blue); font-size: 0.85rem; margin-top: 1.5rem; }
+
+  section {
+    padding: 4rem 8vw;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  h2 { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+  h3.section-label { font-size: 0.8rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
+  h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  p { font-size: 0.95rem; line-height: 1.6; color: var(--ink); max-width: 720px; }
+
+  .mt-sm { margin-top: var(--space-sm); }
+  .mt-md { margin-top: var(--space-md); }
+  .mt-lg { margin-top: var(--space-lg); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 1.5rem; }
+  .split-wide { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start; margin-top: 1.5rem; }
+  .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 1.5rem; }
+
+  @media (max-width: 900px) {
+    .split, .split-wide { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .highlight-box {
+    background: rgba(0,59,149,0.06);
+    border-left: 3px solid var(--booking-blue);
+    border-radius: 0 8px 8px 0;
+    padding: 1.2rem 1.5rem;
+    margin-top: 1.2rem;
+    max-width: 720px;
+  }
+  .highlight-box p { font-size: 0.9rem; max-width: none; }
+
+  .principle-list { list-style: none; padding: 0; }
+  .principle-list li { padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; display: flex; align-items: baseline; gap: 0.75rem; }
+  .principle-list li:last-child { border-bottom: none; }
+  .principle-list li::before { content: '\2022'; color: var(--action-blue); font-weight: 700; }
+  .principle-num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500; color: var(--action-blue); min-width: 2rem; }
+
+  .tag { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 4px; margin-right: 0.4rem; margin-bottom: 0.6rem; }
+  .tag-blue { background: rgba(0,106,228,0.1); color: var(--action-blue); }
+  .tag-green { background: var(--green-light); color: var(--green); }
+  .tag-yellow { background: #FFF3D6; color: #B37800; }
+  .tag-red { background: #FFF0F0; color: var(--red); }
+
+  .timeline { list-style: none; padding: 0; position: relative; display: flex; gap: 0; padding-top: 2rem; padding-left: 0; overflow-x: auto; }
+  .timeline::before { content: ''; position: absolute; left: 0; right: 0; top: 1.2rem; height: 2px; width: 100%; background: var(--border); }
+  .timeline li { padding: 0.8rem 1rem 0 0; font-size: 0.82rem; position: relative; min-width: 140px; flex: 1; }
+  .timeline li::before { content: ''; position: absolute; left: 0; top: -1rem; width: 10px; height: 10px; border-radius: 50%; background: var(--booking-blue); border: 2px solid var(--bg); }
+  .timeline li.done::before { background: var(--green); }
+  .timeline li.current::before { background: var(--accent-yellow); box-shadow: 0 0 0 3px rgba(255,183,0,0.2); }
+  .timeline .date { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--muted); display: block; margin-bottom: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h3>Service & Process Design - UCC Program</h3>
+  <h1>Voice</h1>
+  <p class="subtitle">Replacing legacy voice infrastructure while preserving the traveller and agent experience, starting with the Hungary pilot</p>
+  <p class="author">Vera Crisci (Service Design) | June 2026</p>
+</div>
+
+<!-- SCOPE -->
+<section>
+  <h3 class="section-label">Track Scope</h3>
+  <h2>What this track covers</h2>
+  <div class="split">
+    <div>
+      <p>The Voice track migrates ABU voice service from legacy platforms (Cisco) to AWS Connect. Unlike a new channel, this is a replacement of something travellers already rely on. Expectations are already set, and any regression in the experience is immediately felt.</p>
+      <p class="mt-sm">Hungary is the first launch: one market, one site, used to validate the platform, contact flows and operational model before scaling further.</p>
+      <div class="highlight-box mt-md">
+        <p><strong>SPD focus:</strong> The service journeys are already established, though there is room for improvement in the IVR. Contact flows exist but are being adapted to enable the pilot launch (they must return to their integrity post-pilot). The risk sits on both sides: introducing something new that does not reflect what travellers had before, or carrying over what existed without questioning whether it still works well enough.</p>
+      </div>
+    </div>
+    <div>
+      <h4>Key attributes</h4>
+      <ul class="principle-list">
+        <li>Platform migration (Cisco to AWS Connect)</li>
+        <li>Existing traveller expectations - any degradation is immediately visible</li>
+        <li>IVR and contact flow redesign opportunity</li>
+        <li>Hungary pilot as bounded first launch</li>
+        <li>Legacy decommissioning dependency (Cisco EOL)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MILESTONES -->
+<section>
+  <h3 class="section-label">Milestones</h3>
+  <h2>Key dates and progress</h2>
+  <ul class="timeline mt-md">
+    <li class="done"><span class="date">Feb 2026</span>Voice track initiated - discovery and planning</li>
+    <li class="done"><span class="date">Mar 2026</span>Configuration inventory completed</li>
+    <li class="done"><span class="date">Apr 2026</span>End-to-end traveller and agent journey design, agent key user journeys and voice user stories delivered</li>
+    <li class="done"><span class="date">May 2026</span>Contact flow requirements refined - testing and readiness preparation</li>
+    <li class="current"><span class="date">16 Jun 2026</span>Hungary pilot go-live (delayed from 20 May)</li>
+    <li><span class="date">Jul 2026</span>Post-pilot evaluation and scaling planning</li>
+    <li><span class="date">Mar 2027</span>ABU Voice telephony completion target</li>
+  </ul>
+  <div class="card mt-md" style="max-width: 600px;">
+    <span class="tag tag-yellow">Current status</span>
+    <p style="font-size:0.88rem; margin-top:0.5rem; max-width:none;">Hungary pilot go-live delayed from 20 May to 16 Jun 2026 due to environment and integration issues. Contact flows designed and in testing. War room approach in place to resolve remaining blockers.</p>
+  </div>
+</section>
+
+<!-- EXPERIENCE ASSESSMENT -->
+<section>
+  <h3 class="section-label">Experience Assessment</h3>
+  <h2>Key experience observations</h2>
+  <div class="card-grid mt-sm">
+    <div class="card">
+      <span class="tag tag-blue">Design focus</span>
+      <h4>Contact flow design</h4>
+      <p style="max-width:none;">The IVR and contact flow is the traveller's first experience of the new platform. How it is designed determines whether the entry feels intelligent (IFD principle) or impersonal. SPD designed the Hungary pilot flows, treating the IVR as a traveller touchpoint rather than a technical configuration.</p>
+    </div>
+    <div class="card">
+      <span class="tag tag-green">Delivering well</span>
+      <h4>IVR testing thoroughness</h4>
+      <p style="max-width:none;">Testing surfaced 19+ IVR and call transfer bugs during the pilot preparation phase, all of which have been resolved. Issues ranged from incorrect flow paths (cancellation routing reversed) to missing prompts and transfer failures. The fact that these were found and fixed before go-live is a sign of rigorous validation.</p>
+    </div>
+    <div class="card">
+      <span class="tag tag-yellow">Needs attention</span>
+      <h4>Context handover at routing</h4>
+      <p style="max-width:none;">The journey design defines how intent and context gathered in the IVR should transfer to the agent. The integrations that deliver this (reservation info, skip the line) are still in testing and not yet confirmed working end-to-end. Until they are validated, there is a risk that agents start calls without the context the design intended them to have.</p>
+    </div>
+    <div class="card">
+      <span class="tag tag-yellow">Needs attention</span>
+      <h4>Unified agent desktop blocked</h4>
+      <p style="max-width:none;">The ticket for agents accessing a single desktop for Voice and Live Chat is currently blocked. Without this, agents handling both channels will switch between tools rather than working from one unified view. This affects handle time, context retention and the ability to see a traveller's full interaction history across channels.</p>
+    </div>
+    <div class="card">
+      <span class="tag tag-yellow">Needs attention</span>
+      <h4>Legacy parity expectation</h4>
+      <p style="max-width:none;">Travellers expect at minimum the same service they get today. The Wave 1 rollout plan explicitly describes each language as "replicating the pilot configuration baseline." This assumption that replication is sufficient has not been validated from an experience perspective. Six language rollouts have already been cancelled with no stated rationale.</p>
+    </div>
+    <div class="card">
+      <span class="tag tag-yellow">Needs attention</span>
+      <h4>No experience measurement defined</h4>
+      <p style="max-width:none;">There are no tickets in the backlog for voice CSAT, quality monitoring or experience measurement. The program can track whether the migration happened but not whether the experience improved or degraded. Without baseline metrics before go-live, there is no way to assess the pilot's impact on traveller satisfaction.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ARTEFACTS -->
+<section>
+  <h3 class="section-label">Artefacts</h3>
+  <h2>Service design deliverables</h2>
+  <p><span class="tag tag-yellow">Work in progress</span> Selection of artefacts produced for the Voice track.</p>
+  <div class="card-grid mt-md">
+    <div class="card">
+      <span class="tag tag-blue">Journey Maps & Flows</span>
+      <ul class="principle-list" style="margin-top:0.8rem;">
+        <li><a href="https://miro.com/app/board/uXjVGlJf9a4=/?share_link_id=982789496674" target="_blank">Voice End-to-End Journey - Hungary Pilot (Miro)</a></li>
+        <li>Contact Flows - Hungary Pilot (One Pager)</li>
+        <li>Agent User Journeys (Transfer Scenarios, Outbound Calls)</li>
+        <li>Voice User Stories - Service Design</li>
+        <li style="color: var(--muted); font-style: italic;">More to be added...</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag tag-blue">Reference & Inventory</span>
+      <ul class="principle-list" style="margin-top:0.8rem;">
+        <li>ABU Voice On-Prem Config Inventory</li>
+        <li>UCC Voice - PE Master Sheet</li>
+        <li style="color: var(--muted); font-style: italic;">More to be added...</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

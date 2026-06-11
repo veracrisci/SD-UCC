@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross-Track | UCC Service Design Repository</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --ink: #090034;
+    --muted: #6B6B6B;
+    --border: #E8E8E8;
+    --card: #FFFFFF;
+    --booking-blue: #003B95;
+    --action-blue: #006CE4;
+    --energy-blue: #3FD0FC;
+    --accent-yellow: #FFB700;
+    --green: #008009;
+    --green-light: #E8F8E8;
+    --red: #CC0000;
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2.5rem;
+    --space-xl: 4rem;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  .hero {
+    background: var(--booking-blue);
+    color: white;
+    padding: 6rem 8vw 4rem;
+  }
+  .hero h3 { color: var(--accent-yellow); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; }
+  .hero h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1rem; }
+  .hero .subtitle { font-size: clamp(1rem, 1.5vw, 1.2rem); color: rgba(255,255,255,0.75); max-width: 650px; }
+  .hero .author { color: var(--energy-blue); font-size: 0.85rem; margin-top: 1.5rem; }
+
+  section {
+    padding: 4rem 8vw;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  h2 { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+  h3.section-label { font-size: 0.8rem; font-weight: 700; color: #B37800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
+  h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  p { font-size: 0.95rem; line-height: 1.6; color: var(--ink); max-width: 720px; }
+
+  .mt-sm { margin-top: var(--space-sm); }
+  .mt-md { margin-top: var(--space-md); }
+  .mt-lg { margin-top: var(--space-lg); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 1.5rem; }
+  .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 1.5rem; }
+
+  @media (max-width: 900px) {
+    .split { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .highlight-box {
+    background: rgba(255,183,0,0.06);
+    border-left: 3px solid var(--accent-yellow);
+    border-radius: 0 8px 8px 0;
+    padding: 1.2rem 1.5rem;
+    margin-top: 1.2rem;
+    max-width: 720px;
+  }
+  .highlight-box p { font-size: 0.9rem; max-width: none; }
+
+  .principle-list { list-style: none; padding: 0; }
+  .principle-list li { padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; display: flex; align-items: baseline; gap: 0.75rem; }
+  .principle-list li:last-child { border-bottom: none; }
+  .principle-list li::before { content: '\2022'; color: var(--action-blue); font-weight: 700; }
+  .principle-num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500; color: #B37800; min-width: 2rem; }
+
+  .tag { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 4px; margin-right: 0.4rem; }
+  .tag-blue { background: rgba(0,106,228,0.1); color: var(--action-blue); }
+  .tag-green { background: var(--green-light); color: var(--green); }
+  .tag-yellow { background: #FFF3D6; color: #B37800; }
+  .tag-red { background: #FFF0F0; color: var(--red); }
+
+  .capability-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-yellow);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .capability-card h4 { margin-bottom: 0.4rem; }
+  .capability-card p { font-size: 0.85rem; color: var(--muted); max-width: none; }
+  .capability-card .scope-tag { font-size: 0.7rem; font-weight: 600; color: var(--muted); margin-top: 0.8rem; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h3>Service & Process Design - UCC Program</h3>
+  <h1>Cross-Track</h1>
+  <p class="subtitle">System-level capabilities that shape how all contacts enter, are understood and are orchestrated across channels</p>
+  <p class="author">Vera Crisci (Service Design) | June 2026</p>
+</div>
+
+<!-- SCOPE -->
+<section>
+  <h3 class="section-label">Track Scope</h3>
+  <h2>What this track covers</h2>
+  <div class="split">
+    <div>
+      <p>Cross-track captures capabilities that span multiple channels and cannot be scoped to a single track. These are capabilities that affect how all contacts are handled, regardless of whether they arrive via chat, voice or written channels.</p>
+      <p class="mt-sm">The central design principle here is the Intelligent Front Door (IFD): the unified flow that every support interaction passes through, detecting intent, identifying the traveller and routing to the optimal resolution path before a human is involved. Cross-track capabilities either enable the IFD or depend on it.</p>
+      <div class="highlight-box mt-md">
+        <p><strong>SPD focus:</strong> These are not separate features to be added later. They are system-level capabilities that determine how contacts enter, how they are understood and how they are orchestrated across channels. Design decisions here affect every track.</p>
+      </div>
+    </div>
+    <div>
+      <h4>Cross-track capabilities</h4>
+      <ul class="principle-list">
+        <li>Real-time translation (language as a system capability, not a channel feature)</li>
+        <li>Routing logic and channel steering</li>
+        <li>IFD capability mapping and design</li>
+        <li>Agent desktop experience (unified across channels)</li>
+        <li>Reporting and measurement framework</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSLATION -->
+<section>
+  <h3 class="section-label">Real-Time Translation</h3>
+  <h2>CX Assessment summary</h2>
+  <div class="split">
+    <div>
+      <p>The translation initiative (CCAAS-712) aims to enable agents to assist travellers in multiple languages via AWS Connect's native translation capability. SPD's assessment identified three critical observations:</p>
+      <ul class="principle-list mt-sm">
+        <li><strong>No strategic foundation.</strong> No defined rationale for which travellers, markets, languages, sites or conditions. Four stakeholders independently flagged this gap.</li>
+        <li><strong>Framed as a chat feature, not a system capability.</strong> The Blueprint positions translation at Stage 03 (Classification). The initiative builds it at Stage 05 (Service). Language mismatch is not channel-specific.</li>
+        <li><strong>No experience metrics defined.</strong> Technical thresholds (>95% accuracy, <3s latency) exist but there is no connection to CSAT, FCR or effort score.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card">
+        <span class="tag tag-yellow">EPS Strategic Context</span>
+        <p style="margin-top:0.5rem; max-width:none;">Translation is one of four structural shifts in the EPS operating model (Bain). Decouples language from location. By 2030, translated agents could represent 31-59% of all Accommodations text FTE.</p>
+      </div>
+      <div class="card mt-sm">
+        <span class="tag tag-red">POC risk</span>
+        <p style="margin-top:0.5rem; max-width:none;">Targeted POC site cannot do outbound calls. Translation will be tested where agents already can't fully resolve. Cannot isolate translation quality from pre-existing operational gaps.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER CAPABILITIES -->
+<section>
+  <h3 class="section-label">Capabilities</h3>
+  <h2>Other cross-track areas</h2>
+  <div class="card-grid mt-sm">
+    <div class="capability-card">
+      <h4>IFD Capability Mapping</h4>
+      <p>Mapping current and target capabilities against the IFD Capability Catalogue. This ensures all tracks build to the same standard and that capability language aligns to the North Star Blueprint taxonomy.</p>
+      <div class="scope-tag">Affects: All tracks | Status: Ongoing</div>
+    </div>
+    <div class="capability-card">
+      <h4>Routing & Channel Steering</h4>
+      <p>How contacts are classified, prioritised and directed to the optimal resolution path. Includes skill rationalisation (476 skills in Written), priority policy and smart steering logic.</p>
+      <div class="scope-tag">Affects: All tracks | Status: Design input needed</div>
+    </div>
+    <div class="capability-card">
+      <h4>Agent Desktop (Unified)</h4>
+      <p>North Star Principle A3: voice, chat and messaging unified in one interface. Knowledge, case history and actions integrated. Each track builds toward this target independently, and cross-track ensures convergence.</p>
+      <div class="scope-tag">Affects: All tracks | Status: Future alignment</div>
+    </div>
+    <div class="capability-card">
+      <h4>Measurement & Reporting</h4>
+      <p>Consistent CX measurement across channels. CSAT trigger points, RCR methodology and quality monitoring framework. This ensures the program can measure experience improvement, not just migration completion.</p>
+      <div class="scope-tag">Affects: All tracks | Status: Framework needed</div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTEFACTS -->
+<section>
+  <h3 class="section-label">Artefacts</h3>
+  <h2>Service design deliverables</h2>
+  <p><span class="tag tag-yellow">Work in progress</span> Selection of artefacts produced for cross-track capabilities.</p>
+  <div class="card-grid mt-md">
+    <div class="card">
+      <span class="tag tag-yellow">Translation</span>
+      <ul class="principle-list" style="margin-top:0.8rem;">
+        <li>Real-Time Translation CX Assessment</li>
+        <li>Experience Design: Live Chat Experience for Translation</li>
+        <li>Live Chat Live Translation Requirements</li>
+        <li>Translation Experience Journey (HTML)</li>
+        <li>Real-Time Translation Requirements (AWS-specific)</li>
+        <li style="color: var(--muted); font-style: italic;">More to be added...</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag tag-yellow">IFD & Routing</span>
+      <ul class="principle-list" style="margin-top:0.8rem;">
+        <li>IFD Capability Catalogue (mapping)</li>
+        <li>North Star Blueprint capability taxonomy alignment</li>
+        <li>Contact flow design principles</li>
+        <li>Kill Switch Experience Journey (Emergency Service Controls)</li>
+        <li style="color: var(--muted); font-style: italic;">More to be added...</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCC Program - Service Design Repository | Booking.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F8FA;
+    --ink: #090034;
+    --muted: #6B6B6B;
+    --border: #E2E4E9;
+    --card: #FFFFFF;
+    --booking-blue: #003B95;
+    --action-blue: #006CE4;
+    --energy-blue: #3FD0FC;
+    --accent-yellow: #FFB700;
+    --green: #008009;
+    --green-light: #E8F8E8;
+    --purple: #7C3AED;
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  /* === HERO === */
+  .hero {
+    background: var(--booking-blue);
+    color: white;
+    padding: 5rem 6vw 3.5rem;
+  }
+  .hero h3 { color: var(--energy-blue); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; }
+  .hero h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1rem; }
+  .hero .subtitle { font-size: clamp(1rem, 1.5vw, 1.2rem); color: rgba(255,255,255,0.75); max-width: 950px; text-align: left; }
+  .hero .author { color: var(--energy-blue); font-size: 0.85rem; margin-top: 1.5rem; }
+
+  /* === MAIN GRID === */
+  .container {
+    padding: 2rem 6vw 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 1.5rem;
+  }
+
+  /* === CARDS === */
+  .tile {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 2rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .tile-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--action-blue);
+    margin-bottom: 0.8rem;
+    text-align: left;
+  }
+  .tile h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+    text-align: left;
+  }
+  .tile p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  /* Mandate tile */
+  .tile-mandate { grid-column: 1; grid-row: 1; }
+  .tile-why { grid-column: 2; grid-row: 1; }
+  .tile-tracks { grid-column: 1 / -1; grid-row: 2; }
+  .tile-scope { grid-column: 1; grid-row: 3; }
+  .tile-timeline { grid-column: 2; grid-row: 3; }
+
+  /* === OPERATE LIST === */
+  .operate-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  .operate-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .operate-list li:last-child { border-bottom: none; }
+  .operate-list .material-symbols-outlined {
+    font-size: 1.3rem;
+    color: var(--action-blue);
+  }
+
+  /* === DELIVER CHIPS === */
+  .deliver-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(0,106,228,0.06);
+    border: 1px solid rgba(0,106,228,0.12);
+    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+    color: var(--ink);
+  }
+  .chip .material-symbols-outlined {
+    font-size: 1.1rem;
+    color: var(--action-blue);
+  }
+
+  /* === TRACK GRID === */
+  .track-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+  .track-tile {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 1.4rem;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .track-tile:hover {
+    border-color: var(--action-blue);
+    box-shadow: 0 4px 12px rgba(0,106,228,0.08);
+  }
+  .track-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .track-tile h4 { font-size: 0.95rem; font-weight: 700; }
+  .track-tile p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  .track-status {
+    margin-top: auto;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    width: fit-content;
+  }
+  .status-live { background: var(--green-light); color: var(--green); }
+  .status-build { background: #FFF3D6; color: #B37800; }
+  .status-discovery { background: #EEF2FF; color: var(--action-blue); }
+
+  /* === SCOPE ITEMS === */
+  .scope-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  .scope-list li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .scope-list li:last-child { border-bottom: none; }
+  .scope-list .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    min-width: 1.4rem;
+  }
+
+  /* === TIMELINE === */
+  .timeline-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    position: relative;
+    padding-left: 1.2rem;
+  }
+  .timeline-list::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline-list li {
+    padding: 0.45rem 0;
+    font-size: 0.82rem;
+    position: relative;
+  }
+  .timeline-list li::before {
+    content: '';
+    position: absolute;
+    left: -1.45rem;
+    top: 0.7rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--action-blue);
+    border: 2px solid var(--bg);
+  }
+  .timeline-list li.done::before { background: var(--green); }
+  .timeline-list li.now::before { background: var(--accent-yellow); box-shadow: 0 0 0 3px rgba(255,183,0,0.2); }
+  .timeline-list .date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 1px;
+  }
+
+  /* === LINK === */
+  .ns-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--action-blue);
+    text-decoration: none;
+    padding: 0.5rem 0.9rem;
+    background: rgba(0,106,228,0.06);
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .ns-link:hover { background: rgba(0,106,228,0.12); }
+  .ns-link .material-symbols-outlined { font-size: 1rem; }
+
+  @media (max-width: 900px) {
+    .container {
+      grid-template-columns: 1fr;
+    }
+    .tile-mandate, .tile-why, .tile-tracks, .tile-scope, .tile-timeline {
+      grid-column: 1;
+      grid-row: auto;
+    }
+    .track-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h3>Service & Process Design</h3>
+  <h1>UCC Program<br>Service Design Repository</h1>
+  <p class="subtitle">A centralised repository of experience artefacts, journey maps, CX assessments, and design decisions produced by the Service & Process Design team across all UCC program tracks</p>
+  <p class="author">Vera Crisci (Service Design) | June 2026</p>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- MANDATE -->
+  <div class="tile tile-mandate">
+    <div class="tile-label">Our Mandate</div>
+    <h2>Service & Process Design</h2>
+    <p>The SPD team is the custodian of the end-to-end support experience at Booking.com Customer Service. We define what the experience must be - for travellers, agents, and partners - and govern how all initiatives align to that intended experience.</p>
+    <ul class="operate-list">
+      <li><span class="material-symbols-outlined">target</span>Design reference - teams check alignment to dimensions, stages, and principles</li>
+      <li><span class="material-symbols-outlined">verified_user</span>Governance instrument - structured basis for quality assurance</li>
+      <li><span class="material-symbols-outlined">forum</span>Communication tool - shared language across Product, Tech, Ops, Leadership</li>
+    </ul>
+    <p style="margin-top:1.2rem; font-size:0.82rem; color:var(--ink);">All our work is governed by the North Star Blueprint - the singular reference for support experience decisions across Booking.com.</p>
+    <a href="https://sites.google.com/booking.com/e2e-support-northstar/north-star-blueprint" target="_blank" class="ns-link"><span class="material-symbols-outlined">open_in_new</span>North Star Blueprint</a>
+  </div>
+
+  <!-- WHY SPD -->
+  <div class="tile tile-why">
+    <div class="tile-label">Why SPD is involved in UCC</div>
+    <h2>Experience-led, not just migrated</h2>
+    <p>The UCC program is a platform migration - but platform decisions are experience decisions. SPD ensures that UCC delivers on its stated ambition: not a like-for-like re-platform of existing limitations, but a migration that leverages AWS Connect's native CX capabilities to materially improve the support experience at launch.</p>
+    <div class="deliver-chips">
+      <div class="chip"><span class="material-symbols-outlined">map</span>Journey maps</div>
+      <div class="chip"><span class="material-symbols-outlined">assessment</span>CX assessments</div>
+      <div class="chip"><span class="material-symbols-outlined">translate</span>Experience requirements</div>
+      <div class="chip"><span class="material-symbols-outlined">shield</span>Design governance</div>
+    </div>
+    <p style="margin-top:1rem; font-size:0.82rem; color:var(--muted);">The Intelligent Front Door (IFD) is a design principle, not a separate program. Decisions about how contacts enter, how forms are structured, how intent is classified before routing - these are IFD decisions, whether framed as such or not.</p>
+  </div>
+
+  <!-- TRACKS -->
+  <div class="tile tile-tracks">
+    <div class="tile-label">Program Tracks</div>
+    <h2>Four tracks, one experience</h2>
+    <div class="track-grid">
+      <div class="track-tile">
+        <div class="track-dot" style="background: var(--action-blue);"></div>
+        <h4>Live Chat</h4>
+        <p>AWS Connect live chat rollout and scaling. Web + app, multi-language, multi-site.</p>
+        <span class="track-status status-live">Live & scaling</span>
+      </div>
+      <div class="track-tile">
+        <div class="track-dot" style="background: var(--booking-blue);"></div>
+        <h4>Voice</h4>
+        <p>First voice launch on AWS Connect. Hungary pilot, IVR migration from Cisco/Mitel.</p>
+        <span class="track-status status-build">Build & pilot</span>
+      </div>
+      <div class="track-tile">
+        <div class="track-dot" style="background: var(--purple);"></div>
+        <h4>Written</h4>
+        <p>Email, messaging, web form migration off Intercom. 29.8M contacts/year.</p>
+        <span class="track-status status-discovery">Discovery</span>
+      </div>
+      <div class="track-tile">
+        <div class="track-dot" style="background: var(--accent-yellow);"></div>
+        <h4>Cross-track</h4>
+        <p>Translation, routing, IFD design, agent desktop, reporting.</p>
+        <span class="track-status status-build">In progress</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCOPE -->
+  <div class="tile tile-scope">
+    <div class="tile-label">Program Scope</div>
+    <h2>What is UCC / CCaaS?</h2>
+    <p>Customer Service's strategic effort to simplify a fragmented contact-centre landscape on AWS Connect.</p>
+    <ul class="scope-list">
+      <li><span class="num">01</span>Core channel migration - Live Chat, Voice, Written onto AWS Connect</li>
+      <li><span class="num">02</span>Capability development - translation, routing, AI, quality monitoring</li>
+      <li><span class="num">03</span>Wider BU expansion - Cars, Rides, Attractions, broader TBU</li>
+      <li><span class="num">04</span>Legacy decommissioning - Cisco, Mitel, Intercom shutdown</li>
+    </ul>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="tile tile-timeline">
+    <div class="tile-label">Timeline</div>
+    <h2>Key milestones</h2>
+    <ul class="timeline-list">
+      <li class="done"><span class="date">Q1 2026</span>Live Chat first launch - MVP live, MNL5</li>
+      <li class="done"><span class="date">Spring 2026</span>Live Chat scaling - VNO, multi-site</li>
+      <li class="now"><span class="date">Mid 2026</span>Voice Hungary pilot launch</li>
+      <li class="now"><span class="date">Mid 2026</span>Written Channels discovery + CX assessment</li>
+      <li><span class="date">H2 2026</span>ABU Live Chat full scale; Written migration</li>
+      <li><span class="date">2027</span>ABU Voice migration; broader TBU</li>
+    </ul>
+  </div>
+
+</div>
+
+</body>
+</html>

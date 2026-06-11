@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Written Channels Track | UCC Service Design Repository</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --ink: #090034;
+    --muted: #6B6B6B;
+    --border: #E8E8E8;
+    --card: #FFFFFF;
+    --booking-blue: #003B95;
+    --action-blue: #006CE4;
+    --energy-blue: #3FD0FC;
+    --accent-yellow: #FFB700;
+    --green: #008009;
+    --green-light: #E8F8E8;
+    --red: #CC0000;
+    --purple: #7C3AED;
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2.5rem;
+    --space-xl: 4rem;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  .hero {
+    background: var(--booking-blue);
+    color: white;
+    padding: 6rem 8vw 4rem;
+  }
+  .hero h3 { color: rgba(255,255,255,0.7); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; }
+  .hero h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1rem; }
+  .hero .subtitle { font-size: clamp(1rem, 1.5vw, 1.2rem); color: rgba(255,255,255,0.75); max-width: 650px; }
+  .hero .author { color: var(--energy-blue); font-size: 0.85rem; margin-top: 1.5rem; }
+
+  section {
+    padding: 4rem 8vw;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  h2 { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+  h3.section-label { font-size: 0.8rem; font-weight: 700; color: var(--purple); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
+  h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  p { font-size: 0.95rem; line-height: 1.6; color: var(--ink); max-width: 720px; }
+
+  .mt-sm { margin-top: var(--space-sm); }
+  .mt-md { margin-top: var(--space-md); }
+  .mt-lg { margin-top: var(--space-lg); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 1.5rem; }
+  .split-wide { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start; margin-top: 1.5rem; }
+  .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 1.5rem; }
+  .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.5rem; }
+
+  @media (max-width: 900px) {
+    .split, .split-wide { grid-template-columns: 1fr; }
+    .card-grid-3 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .highlight-box {
+    background: rgba(124,58,237,0.06);
+    border-left: 3px solid var(--purple);
+    border-radius: 0 8px 8px 0;
+    padding: 1.2rem 1.5rem;
+    margin-top: 1.2rem;
+    max-width: 720px;
+  }
+  .highlight-box p { font-size: 0.9rem; max-width: none; }
+
+  .principle-list { list-style: none; padding: 0; }
+  .principle-list li { padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; display: flex; align-items: baseline; gap: 0.75rem; }
+  .principle-list li:last-child { border-bottom: none; }
+  .principle-list li::before { content: '\2022'; color: var(--action-blue); font-weight: 700; }
+  .principle-num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500; color: var(--purple); min-width: 2rem; }
+
+  .tag { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 4px; margin-right: 0.4rem; margin-bottom: 0.6rem; }
+  .tag-blue { background: rgba(0,106,228,0.1); color: var(--action-blue); }
+  .tag-green { background: var(--green-light); color: var(--green); }
+  .tag-yellow { background: #FFF3D6; color: #B37800; }
+  .tag-red { background: #FFF0F0; color: var(--red); }
+  .tag-purple { background: rgba(124,58,237,0.1); color: var(--purple); }
+
+
+  .timeline { list-style: none; padding: 0; position: relative; display: flex; gap: 0; padding-top: 2rem; padding-left: 0; overflow-x: auto; }
+  .timeline::before { content: ''; position: absolute; left: 0; right: 0; top: 1.2rem; height: 2px; width: 100%; background: var(--border); }
+  .timeline li { padding: 0.8rem 1rem 0 0; font-size: 0.82rem; position: relative; min-width: 140px; flex: 1; }
+  .timeline li::before { content: ''; position: absolute; left: 0; top: -1rem; width: 10px; height: 10px; border-radius: 50%; background: var(--purple); border: 2px solid var(--bg); }
+  .timeline li.done::before { background: var(--green); }
+  .timeline li.current::before { background: var(--accent-yellow); box-shadow: 0 0 0 3px rgba(255,183,0,0.2); }
+  .timeline .date { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--muted); display: block; margin-bottom: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h3>Service & Process Design - UCC Program</h3>
+  <h1>Written Channels</h1>
+  <p class="subtitle">Migrating the highest-volume support channels without degrading the experience for 29.8M contacts per year</p>
+  <p class="author">Vera Crisci (Service Design) | June 2026</p>
+</div>
+
+<!-- SCOPE -->
+<section>
+  <h3 class="section-label">Track Scope</h3>
+  <h2>What this track covers</h2>
+  <div class="split">
+    <div>
+      <p>The Written Channels track aims to migrate ABU's email, messaging and web form channels from Intercom (and related legacy systems) into Amazon Connect. This is categorically different from Live Chat and Voice: these are not new channels and not a bounded pilot. They are the channels that 29.8M travellers and partners already use, with existing threads, open cases and active expectations.</p>
+      <p class="mt-sm">Any degradation, like a traveller who stops receiving updates mid-case, a reply thread that breaks, an agent who loses context at handover, will affect contacts already in progress. The traveller does not know a migration happened, they only know the service got worse.</p>
+      <div class="highlight-box mt-md">
+        <p><strong>SPD focus:</strong> We recommend designing AWS Connect to its full CX potential rather than doing a like-for-like migration of the current setup, as such an approach would move the existing experience into new infrastructure without improving it (re-platforming the 49.2% CSAT ceiling rather than addressing it). Amazon Connect's native capabilities, such as intelligent routing, automated classification and proactive updates, can help deliver a better experience already at launch, with no Pega changes required and within the current program scope. Currently, four program-level decisions are pending before the requirements sign-off can proceed.</p>
+      </div>
+    </div>
+    <div>
+      <h4>Key attributes</h4>
+      <ul class="principle-list">
+        <li>Existing channels under live load - not new, not bounded</li>
+        <li>Highest CS volume (29.8M contacts, 81% in scope)</li>
+        <li>Worst CSAT performance (Email 49.2%, Messaging 52.4%)</li>
+        <li>Fragmented architecture (Intercom, SAPI, Camunda, Pega, GMU, 80+ aliases)</li>
+        <li>Journey design is risk management, not preference</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CURRENT STATE -->
+<section>
+  <h3 class="section-label">Current State</h3>
+  <h2>The failure mechanism</h2>
+  <p>The 81.8% email re-contact rate is not an anomaly. It is the system working exactly as designed. Three evidence layers converge on the same diagnosis:</p>
+
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.5rem;">
+    <div class="card" style="border-top: 3px solid var(--red);">
+      <div style="font-size: 2rem; font-weight: 800; color: var(--red); margin-bottom: 0.4rem;">90%</div>
+      <h4 style="font-size: 0.9rem;">No-reply templates</h4>
+      <p style="max-width:none; font-size: 0.85rem; color: var(--muted);">Pega CS email templates are no-reply. When a traveller replies to cs-noreply@booking.com, they receive a hard 'address not found' error. The sender address begins with 'cs' rather than 'noreply', which reads as a human inbox and actively encourages replies that cannot be received.</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--accent-yellow);">
+      <div style="font-size: 2rem; font-weight: 800; color: #B37800; margin-bottom: 0.4rem;">74.8%</div>
+      <h4 style="font-size: 0.9rem;">Repeat contacts</h4>
+      <p style="max-width:none; font-size: 0.85rem; color: var(--muted);">Request Information cases are repeat contacts. Of 34,527 analysed interactions (Mar-Apr 2026), 25,820 were returning travellers. 15,754 had the same prior topic - meaning the original interaction did not resolve the question. Median gap: 2 days. 7,175 returned same day.</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--purple);">
+      <div style="font-size: 2rem; font-weight: 800; color: var(--purple); margin-bottom: 0.4rem;">54%</div>
+      <h4 style="font-size: 0.9rem;">Status lookups</h4>
+      <p style="max-width:none; font-size: 0.85rem; color: var(--muted);">Agent-handled contacts are pure status lookups - automatable today without LLM complexity. These contacts consume agent capacity without requiring human judgement.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box mt-md" style="max-width: none;">
+    <p><strong>The mechanism:</strong> Incomplete first contact, no proactive follow-up, and a traveller waiting in silence until the absence of a response becomes sufficient reason to contact again. A platform migration that treats CSAT as a guardrail rather than a goal will not close this gap.</p>
+  </div>
+</section>
+
+<!-- WHY THIS TRACK DIFFERS -->
+<section>
+  <h3 class="section-label">Context</h3>
+  <h2>Why this track differs from Live Chat and Voice</h2>
+  <div style="display: grid; grid-template-columns: 3fr 2fr; gap: 3rem; align-items: start;">
+    <div>
+      <p style="max-width: none;">Live Chat introduced a new channel - travellers had no prior experience to compare against, no existing threads to preserve. Voice in Hungary replaces a platform (Cisco to Connect) in a bounded, single-market context where service journeys are already established. Neither touched an existing channel under live load with active customer expectations.</p>
+      <p style="max-width: none;" class="mt-sm">Written channels are categorically different. Email and messaging are not new and not bounded. When this program cuts over a flow, it replaces something already running with active human expectations on the other side. This is the condition that makes journey-anchored design a risk management requirement, not a preference.</p>
+    </div>
+    <div>
+      <h4 style="font-size: 0.82rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.8rem;">Key entry points</h4>
+      <div style="display: grid; gap: 0.8rem;">
+        <div style="background: rgba(124,58,237,0.05); border-radius: 8px; padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.85rem; font-weight: 600;">F13 Help Centre Contact Form</span>
+          <span style="font-size: 1.1rem; font-weight: 800; color: var(--purple);">10.4M<span style="font-size: 0.7rem; font-weight: 400; color: var(--muted);">/yr</span></span>
+        </div>
+        <div style="background: rgba(124,58,237,0.05); border-radius: 8px; padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.85rem; font-weight: 600;">F01 Guest Email</span>
+          <span style="font-size: 1.1rem; font-weight: 800; color: var(--purple);">5.6M<span style="font-size: 0.7rem; font-weight: 400; color: var(--muted);">/yr</span></span>
+        </div>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--muted); margin-top: 0.8rem; max-width: none;">Both are IFD decisions. Designing them without the IFD principle is actively building an entry experience that does not meet it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITY GAPS -->
+<section>
+  <h3 class="section-label">Gap Analysis</h3>
+  <h2>Capability gaps not reflected in current requirements</h2>
+  <p style="margin-bottom: 1.5rem;">The Async UCC Requirements and Capabilities Inventory contains 29 functional requirements across 8 capability stages. It maps what systems must do. It does not map what travellers, agents or partners need to experience at each stage.</p>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+    <div class="card" style="border-top: 2px solid var(--red); padding: 1.2rem;">
+      <h4 style="font-size: 0.85rem; margin-bottom: 0.4rem;">Contact entry and acknowledgement</h4>
+      <p style="max-width: none; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem;">Exists: Identity attachment at intake</p>
+      <p style="max-width: none; font-size: 0.82rem;">Auto-acknowledgement content, tone and design have no owner. Traveller's first impression of the new system is not a defined deliverable.</p>
+    </div>
+    <div class="card" style="border-top: 2px solid var(--red); padding: 1.2rem;">
+      <h4 style="font-size: 0.85rem; margin-bottom: 0.4rem;">Outbound / notifications</h4>
+      <p style="max-width: none; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem;">Exists: Noted as goal area; delivery path described</p>
+      <p style="max-width: none; font-size: 0.82rem;">Template design, milestone triggers and no-reply policy have no CX design. 90% no-reply ratio is inherited by default.</p>
+    </div>
+    <div class="card" style="border-top: 2px solid var(--red); padding: 1.2rem;">
+      <h4 style="font-size: 0.85rem; margin-bottom: 0.4rem;">Agent desktop and context</h4>
+      <p style="max-width: none; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem;">Exists: Pega loads with context</p>
+      <p style="max-width: none; font-size: 0.82rem;">"Full context" is not defined. Knowledge base is absent from requirements. AI co-pilot is absent from scope entirely.</p>
+    </div>
+    <div class="card" style="border-top: 2px solid var(--accent-yellow); padding: 1.2rem;">
+      <h4 style="font-size: 0.85rem; margin-bottom: 0.4rem;">Automation and deflection</h4>
+      <p style="max-width: none; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem;">Exists: Email automation bot integration</p>
+      <p style="max-width: none; font-size: 0.82rem;">Scope of automatable intents undefined. Handoff quality undefined. 54% of contacts are status lookups - automatable without LLM complexity.</p>
+    </div>
+    <div class="card" style="border-top: 2px solid var(--accent-yellow); padding: 1.2rem;">
+      <h4 style="font-size: 0.85rem; margin-bottom: 0.4rem;">Measurement</h4>
+      <p style="max-width: none; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem;">Exists: Contact records, unified schema</p>
+      <p style="max-width: none; font-size: 0.82rem;">CSAT trigger point, RCR measurement methodology and quality monitoring are not defined. CSAT classified as a guardrail, not a success metric.</p>
+    </div>
+    <div class="card" style="border-top: 2px solid var(--accent-yellow); padding: 1.2rem;">
+      <h4 style="font-size: 0.85rem; margin-bottom: 0.4rem;">Routing</h4>
+      <p style="max-width: none; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem;">Exists: Routing and priority rules</p>
+      <p style="max-width: none; font-size: 0.82rem;">Routing block explicitly marked as placeholder pending WFM/Ops review. 476 skills not rationalised. Priority policy not defined.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THREE PATHS -->
+<section>
+  <h3 class="section-label">Recommendation</h3>
+  <h2>Three paths identified</h2>
+  <div class="card-grid-3 mt-md">
+    <div class="card" style="border-top: 3px solid var(--border);">
+      <span class="tag tag-yellow">Path 1</span>
+      <h4>Technical migration</h4>
+      <p style="max-width:none;">Like-for-like. Preserve current routing, case model and outbound setup. Low delivery risk. Re-platforms the 49.2% CSAT ceiling into new infrastructure. Connect's native CX capabilities not engaged.</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--green);">
+      <span class="tag tag-green">Path 2 - Recommended</span>
+      <h4>Full CX potential</h4>
+      <p style="max-width:none;">Connect designed with native CX capabilities fully engaged. No Pega changes required. Achievable within current scope. Materially better experience at launch. Requires journey design input before requirements sign-off.</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--purple);">
+      <span class="tag tag-purple">Path 3</span>
+      <h4>+ Pega optimisation</h4>
+      <p style="max-width:none;">Path 2 extended with Pega service journey improvements: template redesign, knowledge base surfacing and agent process optimisation. Full North Star potential. Outside current scope.</p>
+    </div>
+  </div>
+  <div class="highlight-box mt-md">
+    <p><strong>Four program-level decisions are needed before requirements sign-off can proceed:</strong> (1) Treat CSAT, RCR (re-contact rate) and AHT as success metrics the Program is accountable for, not just guardrails to avoid breaching. (2) Confirm that user journey design is a required input before requirements are signed off. (3) Use the same capability language across the program and the North Star Blueprint so requirements map to the target architecture. (4) Decide which approach the program will follow for Written Channels (see paths above).</p>
+  </div>
+</section>
+
+<!-- MILESTONES -->
+<section>
+  <h3 class="section-label">Milestones</h3>
+  <h2>Key dates and progress</h2>
+  <ul class="timeline mt-md">
+    <li class="done"><span class="date">May 2026</span>Discovery started - Written Channels kick-off</li>
+    <li class="done"><span class="date">26 May 2026</span>CX Assessment delivered (SPD)</li>
+    <li class="current"><span class="date">Jun 2026</span>Program-level decisions on path and metrics</li>
+    <li><span class="date">H2 2026</span>Journey design and requirements (if Path 2 confirmed)</li>
+    <li><span class="date">Q4 2026</span>Target: migration off Intercom</li>
+  </ul>
+  <div class="card mt-md" style="max-width: 600px;">
+    <span class="tag tag-purple">Status</span>
+    <p style="font-size:0.88rem; margin-top:0.5rem; max-width:none;">Discovery phase. CX Assessment delivered. Awaiting program-level decisions before design work can begin. SPD inclusion in MVP scoping confirmed.</p>
+  </div>
+</section>
+
+<!-- ARTEFACTS -->
+<section>
+  <h3 class="section-label">Artefacts</h3>
+  <h2>Service design deliverables</h2>
+  <p><span class="tag tag-yellow">Work in progress</span> Selection of artefacts produced for the Written Channels track.</p>
+  <div class="card-grid mt-md">
+    <div class="card">
+      <span class="tag tag-purple">CX Assessments</span>
+      <ul class="principle-list" style="margin-top:0.8rem;">
+        <li>Written Channels CX Assessment (full document)</li>
+        <li>Current state analysis - failure mechanism evidence</li>
+        <li>Capability gap analysis by area</li>
+        <li style="color: var(--muted); font-style: italic;">More to be added...</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag tag-purple">Experience Requirements</span>
+      <ul class="principle-list" style="margin-top:0.8rem;">
+        <li>Written Channels Experience Requirements</li>
+        <li>Path recommendation and decision framework</li>
+        <li>Capability language alignment (IFD Catalogue mapping)</li>
+        <li style="color: var(--muted); font-style: italic;">More to be added...</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
