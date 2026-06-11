@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Customer Journey: I. Southgate - Ibis Luton Refund</title>
+<title>Customer Journey: Traveller CX Case - Ibis Luton Refund</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  .pii { filter: blur(4px); -webkit-filter: blur(4px); user-select: none; }
   :root {
     --booking-blue: #003B95;
     --action-blue: #006CE4;
@@ -508,7 +509,7 @@
           <div class="step-title">Tour cancelled - hotel refund needed</div>
           <span class="badge badge-info">21 Apr</span>
         </div>
-        <p class="step-desc">I. Southgate's Bible Land tour to Israel (7-18 May) is cancelled by Travelink due to FCDO travel advice. He has a 1-night booking at Ibis London Luton Airport (6-7 May, #654XXX0103) that is no longer needed. A straightforward cancellation and refund scenario.</p>
+        <p class="step-desc">Ivor <span class="pii">Southgate</span>'s Bible Land tour to Israel (7-18 May) is cancelled by Travelink due to FCDO travel advice. He has a 1-night booking at Ibis London Luton Airport (6-7 May, #<span class="pii">6546120103</span>) that is no longer needed. A straightforward cancellation and refund scenario.</p>
       </div>
     </div>
 
@@ -520,7 +521,7 @@
           <div class="step-title">Property responds via Booking.com messaging - asks for flight itinerary</div>
           <span class="badge badge-ok">30 Apr</span>
         </div>
-        <p class="step-desc">Ibis London Luton Airport messages I. via the Booking.com platform: "Sorry to hear about your flight cancellation. Can you kindly send your flight itinerary?" I. responds same day with a full explanation - FCDO advice, trip cancelled, insurance implications, expects refund, hopes to return next year. Cooperative tone.</p>
+        <p class="step-desc">Ibis London Luton Airport messages <span class="pii">Ivor</span> via the Booking.com platform: "Sorry to hear about your flight cancellation. Can you kindly send your flight itinerary?" <span class="pii">Ivor</span> responds same day with a full explanation - FCDO advice, trip cancelled, insurance implications, expects refund, hopes to return next year. Cooperative tone.</p>
       </div>
     </div>
 
@@ -532,7 +533,7 @@
           <div class="step-title">No response from property - customer follows up to Accor directly</div>
           <span class="badge badge-warn">3 May</span>
         </div>
-        <p class="step-desc">After 3 days with no reply, I. emails the Accor hotel contact (d.***@accor.com) directly: "Further to my email dated 30 April - I look forward to hearing from you." No response received. The customer is already being forced to chase across channels.</p>
+        <p class="step-desc">After 3 days with no reply, <span class="pii">Ivor</span> emails the Accor hotel contact (<span class="pii">desmond.ikuesan@accor.com</span>) directly: "Further to my email dated 30 April - I look forward to hearing from you." No response received. The customer is already being forced to chase across channels.</p>
         <div class="impact-row">
           <span class="impact-chip chip-process">No SLA on property response</span>
           <span class="impact-chip chip-cx">Customer bears effort</span>
@@ -548,15 +549,15 @@
           <div class="step-title">5 automated messages in 75 minutes - duplicates, irrelevant requests</div>
           <span class="badge badge-crit">7 May</span>
         </div>
-        <p class="step-desc">Between 09:35 and 10:47, the system sends I. 5 separate automated emails:</p>
+        <p class="step-desc">Between 09:35 and 10:47, the system sends <span class="pii">Ivor</span> 5 separate automated emails:</p>
         <ul style="font-size: 13px; color: #37474F; margin: 8px 0 8px 20px; line-height: 1.8;">
-          <li><strong>09:35</strong> - Information request (V.): asks for confirmation number, PIN, email, accommodation name, dates</li>
+          <li><strong>09:35</strong> - Information request (<span class="pii">Varun S.</span>): asks for confirmation number, PIN, email, accommodation name, dates</li>
           <li><strong>10:27</strong> - "About your recent enquiry" - promises 48hr response</li>
-          <li><strong>10:35</strong> - DUPLICATE information request (V.) - identical to 09:35</li>
+          <li><strong>10:35</strong> - DUPLICATE information request (<span class="pii">Varun S.</span>) - identical to 09:35</li>
           <li><strong>10:45</strong> - DUPLICATE "About your recent enquiry" - identical to 10:27</li>
           <li><strong>10:47</strong> - "To assist you further, call us at:" - provides phone numbers</li>
         </ul>
-        <p class="step-desc">Every piece of information requested is already in booking #654XXX0103. The system asks the customer to provide data it already holds.</p>
+        <p class="step-desc">Every piece of information requested is already in booking #<span class="pii">6546120103</span>. The system asks the customer to provide data it already holds.</p>
         <div class="quote">"I have already provided you as requested by your company with flight details, reason for cancellation etc. I suggest you thoroughly check matters out within your organisation before wasting more of my time."</div>
         <div class="impact-row">
           <span class="impact-chip chip-auto">Duplicate sends</span>
@@ -575,7 +576,7 @@
           <div class="step-title">"How was your stay?" survey sent for a booking that never happened</div>
           <span class="badge badge-fail">~8-20 May</span>
         </div>
-        <p class="step-desc">While the refund remains unprocessed, the system sends lifecycle marketing emails asking I. to rate his stay at Ibis London Luton Airport - a stay that never occurred because the booking was cancelled. The cancellation state has not propagated to suppress downstream communications.</p>
+        <p class="step-desc">While the refund remains unprocessed, the system sends lifecycle marketing emails asking <span class="pii">Ivor</span> to rate his stay at Ibis London Luton Airport - a stay that never occurred because the booking was cancelled. The cancellation state has not propagated to suppress downstream communications.</p>
         <div class="impact-row">
           <span class="impact-chip chip-auto">Lifecycle not state-aware</span>
           <span class="impact-chip chip-cx">Insult added to injury</span>
@@ -592,7 +593,7 @@
           <div class="step-title">Customer escalates to named Booking.com contact - still no resolution</div>
           <span class="badge badge-fail">20 May</span>
         </div>
-        <p class="step-desc">I. emails E. B. at Booking.com directly, referencing all prior correspondence. States the matter is unresolved and his money has not been returned. Highlights "the disconnection which prevails in the organisation."</p>
+        <p class="step-desc"><span class="pii">Ivor</span> emails Eric Bergaglia at Booking.com directly, referencing all prior correspondence. States the matter is unresolved and his money has not been returned. Highlights "the disconnection which prevails in the organisation."</p>
         <div class="quote">"I have received emails asking me how my stay went showing the disconnection which prevails in the organisation."</div>
         <div class="impact-row">
           <span class="impact-chip chip-process">No escalation path worked</span>
@@ -609,7 +610,7 @@
           <div class="step-title">Customer demands compensation - tone shifts to formal complaint</div>
           <span class="badge badge-fail">21 May</span>
         </div>
-        <p class="step-desc">I. writes: "When are you going to return my long outstanding money plus compensation for the long delay and time spent in chasing you up?" The ask has now expanded from a simple refund to refund + compensation. The cost of inaction is compounding.</p>
+        <p class="step-desc"><span class="pii">Ivor</span> writes: "When are you going to return my long outstanding money plus compensation for the long delay and time spent in chasing you up?" The ask has now expanded from a simple refund to refund + compensation. The cost of inaction is compounding.</p>
         <div class="impact-row">
           <span class="impact-chip chip-cx">Scope expanded by delay</span>
           <span class="impact-chip chip-trust">Reputational risk growing</span>
@@ -625,7 +626,7 @@
           <div class="step-title">Customer tries again - receives SAME auto-responses as 18 days earlier</div>
           <span class="badge badge-crit">25 May</span>
         </div>
-        <p class="step-desc">I. emails support at 18:04 requesting a "personal" response. At 18:40 he receives the same "About your recent enquiry - 48hr response" auto-acknowledgement. At 18:57 a new agent (K.) introduces herself warmly but then asks again for his confirmation number and PIN code - the same information requested on 7 May and already in the system.</p>
+        <p class="step-desc"><span class="pii">Ivor</span> emails support at 18:04 requesting a "personal" response. At 18:40 he receives the same "About your recent enquiry - 48hr response" auto-acknowledgement. At 18:57 a new agent (<span class="pii">Kenya</span>) introduces herself warmly but then asks again for his confirmation number and PIN code - the same information requested on 7 May and already in the system.</p>
         <div class="quote">"Please explain your latest automated response and advise on a personal basis please having read through all the attachments."</div>
         <div class="impact-row">
           <span class="impact-chip chip-auto">No learning between interactions</span>
@@ -643,7 +644,7 @@
           <div class="step-title">Customer emails CEO and CBO directly - calls it an "automated charade"</div>
           <span class="badge badge-crit">25 May 22:03</span>
         </div>
-        <p class="step-desc">I. emails J. Waters (CBO), J. Burke, and G. Fogel (CEO) directly. The system's failure to resolve a simple refund over 5 weeks has now reached the executive inbox. The customer explicitly names automated systems as the problem.</p>
+        <p class="step-desc"><span class="pii">Ivor</span> emails James Waters (CBO), Joe Burke, and Glen Fogel (CEO) directly. The system's failure to resolve a simple refund over 5 weeks has now reached the executive inbox. The customer explicitly names automated systems as the problem.</p>
         <div class="quote">"I would be most grateful if one of you can satisfactorily end this automated charade that I have been enduring for the best part of a month and return my overdue money perhaps with interest and a promise that my time will never be wasted by your ineffective automated systems again."</div>
         <div class="impact-row">
           <span class="impact-chip chip-trust">Brand damage - executive level</span>
@@ -662,14 +663,14 @@
       The customer's journey was derailed by a specific sequence: automated emails were sent from <strong>no-reply@booking.com</strong> and <strong>cs-noreply@booking.com</strong> while he was actively trying to resolve a refund. Here's what caused it:
     </p>
     <ol style="font-size: 13.5px; color: var(--text); margin: 0 0 16px 20px; line-height: 2;">
-      <li><strong>Property went silent</strong> - Ibis asked for a flight itinerary on 30 April, I. replied same day, then nothing. No SLA enforcement on property response times.</li>
+      <li><strong>Property went silent</strong> - Ibis asked for a flight itinerary on 30 April, <span class="pii">Ivor</span> replied same day, then nothing. No SLA enforcement on property response times.</li>
       <li><strong>Case entered automated queue</strong> - With no property resolution, the case sat in the system until 7 May when auto-sends triggered without human review.</li>
       <li><strong>Auto-sends fired from no-reply addresses</strong> - The "information request" and "about your recent enquiry" templates all came from mailboxes the customer cannot reply to.</li>
-      <li><strong>Customer replied anyway</strong> - I. responded to the auto-sends with his frustration, but those replies either bounced or went into a void with no routing back to a human.</li>
+      <li><strong>Customer replied anyway</strong> - <span class="pii">Ivor</span> responded to the auto-sends with his frustration, but those replies either bounced or went into a void with no routing back to a human.</li>
       <li><strong>No feedback loop exists</strong> - When a customer tries to reply to a no-reply email, there is no mechanism to detect this, flag it, or route it to an agent. The conversation simply dies.</li>
     </ol>
     <p style="font-size: 13.5px; color: var(--subtext); line-height: 1.7;">
-      <strong>The friction points:</strong> The system sent emails that looked like they came from a person (signed "V.", "K.") but from addresses no one can reply to. This creates a false expectation of dialogue. When the customer's only response path is blocked, they escalate - first to named contacts, then to executives.
+      <strong>The friction points:</strong> The system sent emails that looked like they came from a person (signed "<span class="pii">Varun S.</span>", "<span class="pii">Kenya</span>") but from addresses no one can reply to. This creates a false expectation of dialogue. When the customer's only response path is blocked, they escalate - first to named contacts, then to executives.
     </p>
   </div>
 
@@ -688,14 +689,14 @@
       <div class="severity-label">Critical</div>
       <div class="failure-icon">🗃️</div>
       <div class="failure-title">Auto-Sends Request Data the System Already Holds</div>
-      <div class="failure-body">The "information request" template asks for confirmation number, email, accommodation name, and check-in/out dates - all of which exist in booking #654XXX0103. Templates are not validated against booking data before sending. The system appears to have no memory of who the customer is.</div>
+      <div class="failure-body">The "information request" template asks for confirmation number, email, accommodation name, and check-in/out dates - all of which exist in booking #<span class="pii">6546120103</span>. Templates are not validated against booking data before sending. The system appears to have no memory of who the customer is.</div>
     </div>
 
     <div class="failure-card severity-critical">
       <div class="severity-label">Critical</div>
       <div class="failure-icon">💬</div>
       <div class="failure-title">No Conversation-State Suppression</div>
-      <div class="failure-body">Auto-responses fire regardless of whether an active dialogue is in progress. Agent K. asks for information on 25 May while I. is mid-conversation about the same issue. The system has no concept of "this customer is currently engaged" that would suppress generic auto-sends.</div>
+      <div class="failure-body">Auto-responses fire regardless of whether an active dialogue is in progress. Agent <span class="pii">Kenya</span> asks for information on 25 May while <span class="pii">Ivor</span> is mid-conversation about the same issue. The system has no concept of "this customer is currently engaged" that would suppress generic auto-sends.</div>
     </div>
 
     <div class="failure-card severity-high">
@@ -709,14 +710,14 @@
       <div class="severity-label">High</div>
       <div class="failure-icon">🚫</div>
       <div class="failure-title">No Escalation Detection or Sentiment Routing</div>
-      <div class="failure-body">After I. explicitly stated "stop wasting my time" on 7 May, subsequent interactions on 25 May still triggered the same generic auto-response pattern. There is no feedback loop from customer tone/sentiment to communication strategy. Escalation signals are ignored.</div>
+      <div class="failure-body">After <span class="pii">Ivor</span> explicitly stated "stop wasting my time" on 7 May, subsequent interactions on 25 May still triggered the same generic auto-response pattern. There is no feedback loop from customer tone/sentiment to communication strategy. Escalation signals are ignored.</div>
     </div>
 
     <div class="failure-card severity-high">
       <div class="severity-label">High</div>
       <div class="failure-icon">🧠</div>
       <div class="failure-title">Zero Case Continuity Across Interactions</div>
-      <div class="failure-body">Agent K. (25 May) has no visibility of what happened on 7 May or any prior interaction. Each contact starts from zero - same questions, same templates, no progress. There is no shared case thread that accumulates context over time.</div>
+      <div class="failure-body">Agent <span class="pii">Kenya</span> (25 May) has no visibility of what happened on 7 May or any prior interaction. Each contact starts from zero - same questions, same templates, no progress. There is no shared case thread that accumulates context over time.</div>
     </div>
 
     <div class="failure-card severity-medium">
