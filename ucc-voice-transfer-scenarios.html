@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Flows - Transfer Scenarios | Hungary Pilot</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --ink: #090034;
+    --muted: #6B6B6B;
+    --border: #E8E8E8;
+    --card: #FFFFFF;
+    --booking-blue: #003B95;
+    --action-blue: #006CE4;
+    --energy-blue: #3FD0FC;
+    --accent-yellow: #FFB700;
+    --green: #008009;
+    --green-light: #E8F8E8;
+    --red: #CC0000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  .top-nav {
+    background: #003580;
+    padding: 14px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .page-header {
+    background: #003580;
+    padding: 28px 48px 20px;
+  }
+  .page-header h1 {
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+  .page-header .subtitle {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    margin-top: 5px;
+    letter-spacing: 0.1px;
+  }
+
+  .context-banner {
+    background: #ffffff;
+    padding: 22px 48px;
+    border-bottom: 1px solid #dfe3ea;
+  }
+  .context-banner .phase-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--booking-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .context-banner .phase-title::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: var(--booking-blue);
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .context-banner .description {
+    font-size: 14.5px;
+    color: #3d4a5c;
+    margin-bottom: 14px;
+    max-width: 1150px;
+    line-height: 1.55;
+  }
+  .context-banner .owner {
+    font-size: 12px;
+    color: #7a8599;
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  .page {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2.5rem 48px;
+  }
+
+  /* Matrix table */
+  .matrix-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .matrix-table th {
+    text-align: left;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    border-bottom: 1px solid var(--border);
+  }
+  .matrix-table td {
+    padding: 1.1rem 1.2rem;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+  }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .check { color: var(--green); font-size: 1.1rem; }
+  .cross { color: var(--red); font-size: 1.1rem; }
+  .status-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 5px;
+    border: 1px solid;
+  }
+  .status-ready { background: #f0fdf4; color: var(--green); border-color: #bbf7d0; }
+  .status-partial { background: #fffbeb; color: #b37800; border-color: #fde68a; }
+  .status-not-ready { background: #fef2f2; color: var(--red); border-color: #fecaca; }
+
+  /* Scenario cards */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  @media (max-width: 1000px) {
+    .scenario-grid { grid-template-columns: 1fr; }
+  }
+
+  .scenario-card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 1.4rem;
+    border: 1px solid var(--border);
+  }
+
+  .scenario-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+  }
+  .scenario-card .route {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .capability-row {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .cap-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cap-badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .cap-badge .dot.g { background: var(--green); }
+  .cap-badge .dot.r { background: var(--red); }
+
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  .section-label.status-lbl { color: var(--green); }
+  .section-label.limits-lbl { color: #B37800; }
+  .section-label.risks-lbl { color: var(--red); }
+
+  .item-list {
+    list-style: none;
+    padding: 0;
+  }
+  .item-list li {
+    font-size: 0.8rem;
+    padding: 2px 0 2px 12px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .item-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+  .item-list.risks li::before { background: var(--red); }
+
+  .notation {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    background: rgba(0,59,149,0.06);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 0.8rem;
+    display: inline-block;
+  }
+
+  .mitigation-box {
+    background: #FFF3D6;
+    border-radius: 5px;
+    padding: 0.5rem 0.7rem;
+    margin-top: 0.6rem;
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+  .mitigation-box strong {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #B37800;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav"></div>
+
+<div class="page-header">
+  <h1>Contact Flows - Transfer Scenarios</h1>
+  <div class="subtitle">Hungary Pilot - Voice Experience</div>
+</div>
+
+<div class="context-banner">
+  <div class="phase-title">Assessment: Transfer readiness for the Hungary pilot launch</div>
+  <div class="description"><strong>Definition:</strong> A transfer occurs when a traveller calls in and the first receiving agent must hand over the call to a second agent for further assistance. The first agent facilitates the connection to ensure the customer is successfully passed to the right person.</div>
+  <div class="description" style="margin-bottom:0;"><strong>For a transfer to be considered successful</strong>, the first agent must pass both the actual call (the customer) and the associated interaction record (linked case or reservation) to the second agent.</div>
+  <div class="owner">Owner: Vera Crisci - Service Design</div>
+</div>
+
+<div class="page">
+
+  <div class="matrix-box">
+  <table class="matrix-table">
+    <thead>
+      <tr>
+        <th>Scenario</th>
+        <th>Call</th>
+        <th>Interaction</th>
+        <th>Warm Transfer</th>
+        <th>Data Impact</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>AWS → Cisco</strong></td>
+        <td><span class="check">&#10003;</span></td>
+        <td><span class="check">&#10003;</span></td>
+        <td>Supported</td>
+        <td>None</td>
+        <td><span class="status-badge status-ready">&#10003; Ready</span></td>
+      </tr>
+      <tr>
+        <td><strong>Cisco → AWS</strong></td>
+        <td><span class="check">&#10003;</span></td>
+        <td><span class="cross">&#10007;</span></td>
+        <td>Supported</td>
+        <td>1c / 2i</td>
+        <td><span class="status-badge status-partial">&#9888; Partial</span></td>
+      </tr>
+      <tr>
+        <td><strong>AWS → AWS</strong></td>
+        <td><span class="cross">&#10007;</span></td>
+        <td><span class="cross">&#10007;</span></td>
+        <td>Impossible</td>
+        <td>2c / 2i</td>
+        <td><span class="status-badge status-not-ready">&#10007; Not Ready</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="scenario-grid">
+
+    <!-- Scenario 1 -->
+    <div class="scenario-card" style="border-top: 3px solid var(--green);">
+      <h3>1. AWS → Cisco</h3>
+      <p class="route">HUNG agents → Other Lang agents</p>
+      <div class="capability-row">
+        <span class="cap-badge"><span class="dot g"></span>Call</span>
+        <span class="cap-badge"><span class="dot g"></span>Interaction</span>
+        <span class="cap-badge"><span class="dot g"></span>Metadata</span>
+      </div>
+      <p class="section-label status-lbl">Status</p>
+      <ul class="item-list">
+        <li>Both call and interaction transfer successfully</li>
+        <li>Contextual data passed to 2nd agent</li>
+        <li>Pega case properly reassigned</li>
+        <li>No workarounds required</li>
+      </ul>
+      <span class="notation">1c · 1i = 1c · 1i ✓</span>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="scenario-card" style="border-top: 3px solid var(--accent-yellow);">
+      <h3>2. Cisco → AWS</h3>
+      <p class="route">Other Lang agents → HUNG agents</p>
+      <div class="capability-row">
+        <span class="cap-badge"><span class="dot g"></span>Call</span>
+        <span class="cap-badge"><span class="dot r"></span>Interaction</span>
+        <span class="cap-badge"><span class="dot r"></span>Metadata</span>
+      </div>
+      <p class="section-label limits-lbl">Limitations & Workarounds</p>
+      <ul class="item-list">
+        <li>No common CTI layer - metadata lost between platforms</li>
+        <li>Pega case stays locked to Agent 1</li>
+        <li>Agent 1 must manually close Pega to release case</li>
+        <li>Must verbally pass res ID, PIN, verification in warm transfer</li>
+        <li>Cold transfer: warn customer they'll re-verify</li>
+      </ul>
+      <p class="section-label risks-lbl">Risks</p>
+      <ul class="item-list risks">
+        <li>Cold: customer re-identifies and re-verifies</li>
+        <li>Forgot to close Pega = Agent 2 locked out</li>
+        <li>Process-dependent - fails under pressure</li>
+        <li>Warm transfers increase AHT</li>
+        <li>Non-intuitive process slows onboarding</li>
+      </ul>
+      <span class="notation">1c · 1i vs 1c · 2i</span>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="scenario-card" style="border-top: 3px solid var(--red);">
+      <h3>3. AWS → AWS</h3>
+      <p class="route">HUNG agents → HUNG agents</p>
+      <div class="capability-row">
+        <span class="cap-badge"><span class="dot r"></span>Call</span>
+        <span class="cap-badge"><span class="dot r"></span>Interaction</span>
+        <span class="cap-badge"><span class="dot r"></span>Agent comms</span>
+      </div>
+      <p class="section-label risks-lbl">Limitations & Workarounds</p>
+      <ul class="item-list">
+        <li>No direct transfer supported within AWS</li>
+        <li>No metadata, no case reassignment, no warm transfer</li>
+        <li>Can't transfer past shift end to language line</li>
+        <li>Solution: customer redials or re-queues</li>
+        <li>Agent 1 must finalize Pega before ending call</li>
+        <li>Full ID and verification from scratch</li>
+      </ul>
+      <div class="mitigation-box">
+        <strong>Shift mitigation:</strong> Sibiu agents can work past shift end - clear instructions needed.
+      </div>
+      <p class="section-label risks-lbl">Risks</p>
+      <ul class="item-list risks">
+        <li>Customer re-queues or redials - abandonment risk</li>
+        <li>All context lost - re-identify, re-verify, re-explain</li>
+        <li>No agent-to-agent communication possible</li>
+        <li>Pega lock if Agent 1 forgets to close</li>
+        <li>Not a transfer - a failed resolution (high dissatisfaction)</li>
+      </ul>
+      <span class="notation">1c · 1i vs 2c · 2i</span>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

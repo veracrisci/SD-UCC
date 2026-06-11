@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation - Experience Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #1a1a1a;
+            background: #eef1f6;
+        }
+
+        .top-nav {
+            background: #003580;
+            padding: 14px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-nav .nav-left {
+            font-size: 14px;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 0.3px;
+        }
+
+        .top-nav .nav-links {
+            display: flex;
+            gap: 28px;
+        }
+
+        .top-nav .nav-links a {
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            transition: color 0.15s;
+        }
+
+        .top-nav .nav-links a:hover,
+        .top-nav .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .page-header {
+            background: #003580;
+            padding: 28px 48px 20px;
+        }
+
+        .page-header h1 {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .page-header .subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            margin-top: 5px;
+            letter-spacing: 0.1px;
+        }
+
+        .tabs {
+            background: #ffffff;
+            padding: 0 48px;
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #dfe3ea;
+        }
+
+        .tab {
+            padding: 13px 20px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #7a8599;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            letter-spacing: 0.1px;
+        }
+
+        .tab.active {
+            color: #003580;
+            border-bottom-color: #003580;
+        }
+
+        .context-banner {
+            background: #ffffff;
+            padding: 22px 48px;
+            border-bottom: 1px solid #dfe3ea;
+        }
+
+        .context-banner .phase-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #003580;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .context-banner .phase-title::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #003580;
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .context-banner .description {
+            font-size: 14.5px;
+            color: #3d4a5c;
+            margin-bottom: 14px;
+            max-width: 1150px;
+            line-height: 1.55;
+        }
+
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .pill {
+            background: #f5f7fa;
+            border: 1px solid #dfe3ea;
+            border-radius: 4px;
+            padding: 4px 11px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a5568;
+            letter-spacing: 0.1px;
+        }
+
+        .journey-container {
+            padding: 28px 48px 40px;
+            overflow-x: auto;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #003580;
+            margin-bottom: 14px;
+            padding-left: 2px;
+        }
+
+        .section-title.extensions {
+            margin-top: 36px;
+            color: #5b21b6;
+        }
+
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0;
+            min-width: 1100px;
+            border: 1px solid #dfe3ea;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+
+        .journey-grid.ext-grid {
+            border-color: #e0d4fc;
+        }
+
+        .stage-header {
+            background: #f8f9fb;
+            padding: 18px 14px;
+            border-right: 1px solid #dfe3ea;
+            border-bottom: 1px solid #dfe3ea;
+        }
+
+        .stage-header:last-child {
+            border-right: none;
+        }
+
+        .ext-grid .stage-header {
+            background: #f9f5ff;
+            border-right-color: #e0d4fc;
+            border-bottom-color: #e0d4fc;
+        }
+
+        .stage-header .stage-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7a8599;
+            margin-bottom: 10px;
+        }
+
+        .stage-header .stage-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: #1a1a1a;
+            letter-spacing: -0.2px;
+        }
+
+        .stage-header .stage-desc {
+            font-size: 12.5px;
+            color: #7a8599;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .stage-content {
+            padding: 14px;
+            border-right: 1px solid #eef0f4;
+            border-bottom: 1px solid #dfe3ea;
+        }
+
+        .stage-content:last-child {
+            border-right: none;
+        }
+
+        .ext-grid .stage-content {
+            border-right-color: #ede8fc;
+            border-bottom-color: #e0d4fc;
+        }
+
+        .actor-section {
+            margin-bottom: 14px;
+        }
+
+        .actor-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .actor-title {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 7px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .actor-title.traveller { color: #003580; }
+        .actor-title.agent { color: #047857; }
+
+        .status-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 5px;
+        }
+
+        .status-label.available { color: #047857; }
+        .status-label.gap { color: #b91c1c; margin-top: 10px; }
+        .status-label.critical { color: #b91c1c; margin-top: 10px; }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item-list li {
+            font-size: 13px;
+            padding: 2.5px 0 2.5px 12px;
+            position: relative;
+            color: #3d4a5c;
+            line-height: 1.4;
+        }
+
+        .item-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 4px;
+            height: 4px;
+            border-radius: 1px;
+            background: #3d4a5c;
+        }
+
+        .item-list.gaps li {
+            color: #94a3b8;
+        }
+
+        .item-list.gaps li::before {
+            background: none;
+            width: 8px;
+            height: 1px;
+            top: 11px;
+            border-radius: 0;
+            background: #cbd5e1;
+        }
+
+        .item-list.na li {
+            color: #b0bec5;
+            font-style: italic;
+        }
+
+        .item-list.na li::before {
+            display: none;
+        }
+
+        .principle-row {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            background: #fefce8;
+            border: 1px solid #e5e0a0;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            min-width: 1100px;
+        }
+
+        .principle-row.ext {
+            border-color: #d8ccf8;
+            background: #faf8ff;
+        }
+
+        .principle-cell {
+            padding: 12px 14px;
+            border-right: 1px solid #f0eca0;
+            font-size: 12px;
+            color: #5c4d0b;
+            line-height: 1.4;
+        }
+
+        .principle-cell:last-child {
+            border-right: none;
+        }
+
+        .principle-row.ext .principle-cell {
+            border-right-color: #e8e0f8;
+            color: #44337a;
+        }
+
+        .principle-cell strong {
+            display: block;
+            font-size: 11px;
+            color: #003580;
+            font-weight: 800;
+            margin-bottom: 3px;
+            letter-spacing: 0.1px;
+        }
+
+        .principle-row.ext .principle-cell strong {
+            color: #5b21b6;
+        }
+
+        .footer {
+            padding: 18px 48px;
+            font-size: 11.5px;
+            color: #94a3b8;
+            background: #ffffff;
+            border-top: 1px solid #dfe3ea;
+            letter-spacing: 0.1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+    </div>
+
+    <div class="page-header">
+        <h1>Translation Experience Journey</h1>
+    </div>
+
+    <div class="tabs">
+    </div>
+
+    <div class="context-banner">
+        <div class="phase-title">Scenario: Traveller contacts support - no native-language agent available</div>
+        <div class="description">
+            A traveller reaches out for support in their preferred language - but no agent who speaks that language is available. Rather than forcing the traveller into English or routing them to a longer queue, the system activates translation to bridge the gap. This journey maps what happens from that moment forward: the primary service interaction, but also what follows (outbound calls to partner, escalations or consultation, follow-ups and re-contact) - where language continuity needs to hold across channels and touchpoints.
+        </div>
+        <div class="owner" style="font-size: 12px; color: #7a8599; margin-top: 10px; font-weight: 600;">Owner: Vera Crisci - Service Design</div>
+        <div style="margin-top: 14px; padding: 12px 16px; background: #f0f4fa; border-left: 3px solid #003580; border-radius: 4px; font-size: 13px; color: #333; line-height: 1.6;">
+            Each stage includes the relevant Experience Principles and requirements mapped to the <a href="https://sites.google.com/booking.com/e2e-support-northstar/experience-principles" style="color: #003580; font-weight: 600;">North Star Blueprint</a>.
+        </div>
+    </div>
+
+    <div class="journey-container">
+        <div class="section-title">Primary Service Path</div>
+
+        <div class="journey-grid">
+            <!-- Stage headers -->
+            <div class="stage-header">
+                <div class="stage-label">Stage 01</div>
+                <div class="stage-name">Entry & Contact</div>
+                <div class="stage-desc">Traveller reaches support via any channel (chat, phone, email, messaging).</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">Stage 02</div>
+                <div class="stage-name">Identification</div>
+                <div class="stage-desc">Traveller identified; language preference detected or retrieved.</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">Stage 03</div>
+                <div class="stage-name">Classification</div>
+                <div class="stage-desc">Language as classification input; translation path determined.</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">Stage 04</div>
+                <div class="stage-name">Prioritization</div>
+                <div class="stage-desc">Agent matched; translation mode communicated before connection.</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">Stage 05</div>
+                <div class="stage-name">Service</div>
+                <div class="stage-desc">Real-time bi-directional translated interaction.</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">Stage 06</div>
+                <div class="stage-name">Close the Loop</div>
+                <div class="stage-desc">Session ended; language persisted; follow-up initiated.</div>
+            </div>
+
+            <!-- Content -->
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Navigates Help Center or contacts support in their preferred language</li>
+                        <li>Reaches agent-assisted support after triage / IFD recommendation</li>
+                        <li>Language detected automatically from app, browser, profile, or spoken input</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list na"><li>Not yet connected</li></ul>
+                </div>
+            </div>
+
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Authenticated via booking reference / login</li>
+                        <li>Language preference retrieved from profile (returning traveller)</li>
+                        <li>If new traveller, language detected from first message and fallback to manual selection if the detection is inconclusive</li>
+                        <li>Language preference persisted at profile level for future contacts</li>
+                        <li>Not re-asked language if system already knows it</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list na"><li>Not yet connected</li></ul>
+                </div>
+            </div>
+
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Language used as classification input alongside intent, urgency, and value</li>
+                        <li>System checks native-language agent availability first</li>
+                        <li>All languages supported including non-Latin scripts (e.g. Arabic, Chinese, Japanese, Russian)</li>
+                        <li>Translation is offered only if no native-language agent is available within acceptable waiting time</li>
+                        <li>Should translation be offered, traveller is informed transparently that the interaction will be supported by AI translation</li>
+                        <li>Disclaimer displayed: "This interaction is supported by AI translation"</li>
+                        <li>Offered the choice to wait for a native-language agent or proceed with translation</li>
+                        <li>Option to request native-language callback or switch to alternative channel</li>
+                        <li>Alternative channel offered where native-language agent may be available sooner</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list na"><li>System handles classification</li></ul>
+                </div>
+            </div>
+
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Sees queue with estimated wait time</li>
+                        <li>Queue messages displayed in their preferred language</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list">
+                        <li>Knows before accepting that this is a translated interaction</li>
+                        <li>Sees traveller's preferred language and detection confidence level</li>
+                        <li>Full case context auto-loaded in Pega (reservation, history, prior interactions)</li>
+                        <li>Visual badge or label on the interaction indicating translation is active and which language pair is in use</li>
+                        <li>Traveller's region and cultural norms displayed (e.g. formality expectations, date/currency formats) to guide tone</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Communicates in preferred language throughout the session</li>
+                        <li>Sees agent replies translated into their language</li>
+                        <li>Messages appear in the language they typed - no automatic alteration of their own input</li>
+                        <li>Quick replies and confirmations delivered in their language</li>
+                        <li>AI-translated label visible (non-intrusive)</li>
+                        <li>Translation occurs in real-time - latency must not disrupt the flow of conversation</li>
+                        <li>System handles typos, abbreviations, and informal language without breaking translation</li>
+                        <li>Proper nouns (traveller names, hotel names, locations) are never translated</li>
+                        <li>Regional language differences respected (e.g. Mexican Spanish vs EU Spanish, Brazilian Portuguese vs EU Portuguese)</li>
+                        <li>Can indicate they do not understand a translated message - agent is notified and can rephrase or simplify</li>
+                        <li>System monitors translation confidence scores per message - if score drops below acceptable level, traveller is offered a fallback (native-language agent or alternative channel)</li>
+                        <li>Shared landing pages (e.g. policy pages, confirmation screens) displayed in their preferred language</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list">
+                        <li>Always types in English - cannot switch to another language to ensure translation consistency</li>
+                        <li>Sees traveller's message translated into English - can click "show original" to view the untranslated message</li>
+                        <li>Pre-defined templates and quick replies auto-translated before delivery</li>
+                        <li>Can flag wrong or misleading translations for quality review</li>
+                        <li>Can preview how message will appear in traveller's language</li>
+                        <li>Makes outbound calls to partners/hotels during session to resolve</li>
+                        <li>AI co-pilot suggests responses adapted to the traveller's language and cultural context (e.g. tone, formality, phrasing)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Session closed with clear confirmation</li>
+                        <li>Transcript available in their preferred language</li>
+                        <li>Both traveller's preferred language and English translation present in the transcript</li>
+                        <li>CSAT survey delivered in their language</li>
+                        <li>Can rate translation quality separately from service quality</li>
+                        <li>Language preference persisted - next contact starts from known state</li>
+                        <li>Any follow-up (email, SMS, callback) arrives in their language</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list">
+                        <li>Closes session and wraps up case in Pega</li>
+                        <li>Creates follow-up actions - language preference carried forward automatically</li>
+                        <li>Interaction tagged as AI-translated for QA, audit, and compliance</li>
+                        <li>Translation quality score linked to interaction record</li>
+                        <li>Flagged translations feed back into model improvement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="principle-row">
+            <div class="principle-cell">T1 - Frictionless EntryLanguage barrier removed at entry<br><br>T5 - Always a Next StepAlternative channel offered if preferred</div>
+            <div class="principle-cell">T2 - Personalisation & EmpathySystem uses what it knows; traveller recognised<br><br>T4 - Seamless OrchestrationLanguage persisted across contacts</div>
+            <div class="principle-cell">T4 - Seamless OrchestrationLanguage informs classification and routing<br><br>T1 - Frictionless EntryTraveller offered choices transparently</div>
+            <div class="principle-cell">A1 - Context-Rich HandoverAgent briefed on language + mode before accepting<br><br>A3 - Unified Agent DesktopContext loaded in Pega without switching tools</div>
+            <div class="principle-cell">T3 - Right-First-Time ResolutionIssue resolved across language barriers<br><br>A3 - Unified Agent DesktopTranslation embedded in workflow<br><br>A2 - Intelligent AI Co-PilotSuggestions informed by language context</div>
+            <div class="principle-cell">A5 - Continuous Learning LoopOutcomes feed back into system improvement<br><br>T5 - Always a Next StepNext step always clear; dead ends eliminated<br><br>T4 - Seamless OrchestrationLanguage persisted for future contacts</div>
+        </div>
+
+        <!-- EXTENSIONS -->
+        <div class="section-title extensions">Service Journey Extensions - During & After the Interaction</div>
+
+        <div class="journey-grid ext-grid">
+            <div class="stage-header">
+                <div class="stage-label">During service</div>
+                <div class="stage-name">Outbound Partner Call</div>
+                <div class="stage-desc">Agent calls hotel/partner during interaction to verify or action.</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">During service</div>
+                <div class="stage-name">Escalation / Transfer</div>
+                <div class="stage-desc">Issue requires escalation to specialist or supervisor mid-interaction.</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">During / After</div>
+                <div class="stage-name">Follow-Up Comms</div>
+                <div class="stage-desc">Agent sends emails or triggers Pega automations as part of the case.</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">After service</div>
+                <div class="stage-name">Traveller Re-Contact</div>
+                <div class="stage-desc">Traveller contacts again via same or different channel.</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">After service</div>
+                <div class="stage-name">Resolution Confirmation</div>
+                <div class="stage-desc">Outcome communicated back to traveller.</div>
+            </div>
+            <div class="stage-header">
+                <div class="stage-label">After service</div>
+                <div class="stage-name">Quality & Learning</div>
+                <div class="stage-desc">Translation quality assessed; data feeds improvement.</div>
+            </div>
+
+            <!-- Outbound call -->
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Waits while agent contacts partner - remains in translated session</li>
+                        <li>Receives updates in their language while agent is on the call</li>
+                        <li>If outbound call not possible, offered clear alternative path (follow-up with timeline)</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list">
+                        <li>Makes outbound call to hotel/partner during the session</li>
+                        <li>Communicates outcome back to traveller via translated interaction</li>
+                        <li>If outbound not available at site, creates follow-up case with clear SLA</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Escalation -->
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Translation continuity maintained through escalation</li>
+                        <li>Does not need to repeat context to receiving agent</li>
+                        <li>Continues in preferred language without interruption</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list">
+                        <li>Escalates via Pega with full translation context transferred</li>
+                        <li>Receiving agent/specialist knows traveller's language and translation mode</li>
+                        <li>Warm handover with language continuity preserved</li>
+                        <li>Translation state does not reset on transfer</li>
+                        <li>Any internal notes intended for the traveller are translated before being shared</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Follow-up comms -->
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Receives all follow-up emails in their preferred language</li>
+                        <li>Pega-triggered automations (confirmations, status updates, request-for-info) delivered in their language</li>
+                        <li>Reply path available - future replies follow the same language preference already established</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list">
+                        <li>Outbound email templates auto-translated before sending</li>
+                        <li>Pega automations triggered by the service case respect traveller's language preference</li>
+                        <li>Agent aware that system-generated outbound will be in traveller's language</li>
+                        <li>When generating Pega automations, any free-text notes to the customer are also translated into the traveller's language</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Re-contact -->
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Language preference persisted, not re-detected on future re-contact</li>
+                        <li>Full history of the previous translated interaction is accessible to the new agent handling the case</li>
+                        <li>Does not need to re-explain issue from scratch</li>
+                        <li>If via different channel (phone, email), language continuity maintained</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list">
+                        <li>Sees prior translated interaction context and language preference</li>
+                        <li>Supports traveller regardless of language, translation enables any agent to handle the interaction</li>
+                        <li>Can seamlessly continue the service journey</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Resolution confirmation -->
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Resolution confirmation arrives in their preferred language</li>
+                        <li>Can reply in their language if further action needed</li>
+                        <li>Clear next step if issue is not yet resolved</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list">
+                        <li>Resolution update sent via Pega - auto-translated</li>
+                        <li>When generating Pega automations, any agent notes or free-text addressed to the customer are translated into the traveller's language before sending</li>
+                        <li>Closed-loop confirmation that traveller received and understood</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quality -->
+            <div class="stage-content">
+                <div class="actor-section">
+                    <div class="actor-title traveller">Traveller</div>
+                    <ul class="item-list">
+                        <li>Can provide feedback specifically on translation quality</li>
+                        <li>Clear disclaimer that translation feedback is separate from CSAT</li>
+                        <li>Feedback used to improve future translation accuracy</li>
+                    </ul>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-title agent">Agent</div>
+                    <ul class="item-list">
+                        <li>Agent-flagged translation errors are collected and used to refine the translation model over time</li>
+                        <li>Translation quality metrics tracked per agent to identify patterns (e.g. specific language pairs or topics with lower accuracy)</li>
+                        <li>Quality representatives can assess translated interactions (bilingual QA or AI-assisted)</li>
+                        <li>AQM framework extended with translation-specific evaluation criteria (e.g. accuracy, tone preservation, terminology consistency)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="principle-row ext">
+            <div class="principle-cell">T3 - Right-First-TimeAgent must resolve during session - outbound calls required<br><br>T5 - Always a Next StepIf call not possible, clear alternative path with timeline</div>
+            <div class="principle-cell">A1 - Context-Rich HandoverTranslation context and language transfer with escalation<br><br>T4 - Seamless OrchestrationTraveller never repeats themselves on transfer</div>
+            <div class="principle-cell">T4 - Seamless OrchestrationAll outbound - including Pega automations - respects language<br><br>A4 - Single Source of TruthTemplates and automations governed centrally in correct language</div>
+            <div class="principle-cell">T4 - Seamless OrchestrationLanguage persisted at profile level across contacts and channels<br><br>T2 - Personalisation & EmpathyTraveller recognised on return; feels known</div>
+            <div class="principle-cell">T5 - Always a Next StepConfirmation closes the loop in traveller's language<br><br>T3 - Right-First-TimeClear path if issue not yet resolved</div>
+            <div class="principle-cell">A5 - Continuous Learning LoopQuality data feeds back into system at scale<br><br>A2 - Intelligent AI Co-PilotSystem learns from corrections to improve suggestions</div>
+        </div>
+    </div>
+
+</body>
+</html>

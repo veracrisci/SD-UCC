@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Experience Journey (Pilot) - v2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #1a1a2e;
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        .page-header {
+            background: linear-gradient(180deg, #002a6e 0%, #003B95 100%);
+            color: white;
+            padding: 56px 48px 48px;
+        }
+        .page-header h1 { font-size: 34px; font-weight: 800; margin-bottom: 0; }
+
+        .page-scenario {
+            background: #f0f4fa;
+            padding: 32px 48px 24px;
+            border-bottom: none;
+        }
+        .scenario-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #003B95;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .scenario-label::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #003B95;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .scenario-description {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.65;
+            margin-bottom: 16px;
+            max-width: 900px;
+        }
+        .scenario-owner {
+            font-size: 13px;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            background: #003580;
+            padding: 0 48px;
+            border-bottom: 3px solid #002a66;
+        }
+        .tab {
+            padding: 14px 28px;
+            border: none;
+            background: rgba(255,255,255,0.08);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.2s;
+            border-bottom: 5px solid transparent;
+            margin-bottom: -5px;
+        }
+        .tab:hover { color: white; background: rgba(255,255,255,0.12); }
+        .tab.active {
+            color: white;
+            background: rgba(255,255,255,0.15);
+            border-bottom-color: #febb02;
+        }
+
+        .phase-content { display: none; padding: 40px 48px; }
+        .phase-content.active { display: block; }
+
+        .intro-block {
+            background: #f3f5f8;
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            border-left: 4px solid #003580;
+        }
+        .intro-block .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #003580;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .intro-block .section-label::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #003580;
+            border-radius: 50%;
+        }
+        .intro-block p { font-size: 15px; color: #333; margin-bottom: 12px; }
+        .intro-block p:last-of-type { margin-bottom: 0; }
+        .scope-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+        .scope-tag {
+            background: white;
+            border: 1px solid #d0d7e0;
+            color: #003580;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .scope-tag.new {
+            background: #e8f4fd;
+            border-color: #006ce4;
+            color: #006ce4;
+        }
+
+        .stages-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .stage-card {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255,255,255,0.15);
+        }
+        .stage-card:last-child { border-right: none; }
+
+        .stage-header {
+            background: linear-gradient(180deg, #003580 0%, #004a9e 100%);
+            padding: 18px 14px;
+            color: white;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .stage-number {
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            margin-bottom: 10px;
+        }
+        .stage-title { font-size: 16px; font-weight: 800; line-height: 1.3; letter-spacing: -0.2px; }
+        .stage-desc {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .stage-body {
+            background: white;
+            padding: 18px;
+            flex: 1;
+            border-bottom: 1px solid #e8ecf0;
+            border-right: 1px solid #a3c4e9;
+        }
+        .stage-card:first-child .stage-body { border-left: 1px solid #a3c4e9; }
+
+        .experience-block {
+            margin-bottom: 6px;
+            padding: 7px 9px;
+            border-radius: 5px;
+            background: #f8fafc;
+            flex: 1;
+        }
+        .experience-block.traveller { border-left: 3px solid #006ce4; }
+        .experience-block.agent { border-left: 3px solid #008234; }
+        .experience-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin-bottom: 5px;
+        }
+        .experience-block.traveller .experience-label { color: #006ce4; }
+        .experience-block.agent .experience-label { color: #008234; }
+        .experience-text {
+            font-size: 13.5px;
+            color: #444;
+            line-height: 1.45;
+            margin: 0;
+        }
+        .experience-section { margin-bottom: 14px; display: flex; flex-direction: column; }
+
+        .stage-bullets { list-style: none; padding: 0; }
+        .stage-bullets li {
+            font-size: 13px;
+            padding: 3px 0 3px 14px;
+            position: relative;
+            color: #333;
+            line-height: 1.4;
+        }
+        .stage-bullets li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            color: #16803d;
+            font-weight: 700;
+        }
+        .stage-bullets.cannot li { color: #666; font-style: italic; }
+        .stage-bullets.cannot li::before { content: ''; color: #b91c1c; }
+
+        .bullet-section-label {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .bullet-section-label.can { color: #16803d; }
+        .bullet-section-label.cannot { color: #b91c1c; }
+        .bullet-section-label:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+
+        .new-tag {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: 3px;
+            vertical-align: middle;
+        }
+
+        /* Scroll cue */
+        .scroll-cue {
+            position: sticky;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 12px 0 8px;
+            pointer-events: none;
+            z-index: 5;
+            transition: opacity 0.3s;
+        }
+        .scroll-cue-inner {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #003580;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            animation: bounce 2s infinite;
+            box-shadow: 0 4px 14px rgba(0,53,128,0.4);
+        }
+        .scroll-cue-inner::after {
+            content: '\2193';
+            font-size: 13px;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(3px); }
+        }
+
+        /* Sub-journey collapsible sections */
+        .sub-journeys-section {
+            margin-top: 20px;
+            border-top: 2px solid #003580;
+            padding-top: 16px;
+        }
+        .sub-journeys-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #003580;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .sub-journeys-label::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #003580;
+            border-radius: 50%;
+        }
+
+        .sub-journey-accordion {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+        .sub-journey-accordion:hover {
+            box-shadow: 0 2px 8px rgba(0,53,128,0.1);
+        }
+        .sub-journey-accordion.open {
+            border-color: #003580;
+            box-shadow: 0 2px 12px rgba(0,53,128,0.12);
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: linear-gradient(180deg, #003580 0%, #004a9e 100%);
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .accordion-header:hover { background: linear-gradient(180deg, #004a9e 0%, #005bbf 100%); }
+        .sub-journey-accordion.open .accordion-header { background: linear-gradient(180deg, #002a6e 0%, #003580 100%); border-bottom: 1px solid #e2e8f0; }
+
+        .accordion-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .accordion-icon {
+            font-size: 12px;
+            color: white;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.2);
+            transition: transform 0.2s;
+        }
+        .sub-journey-accordion.open .accordion-icon { transform: rotate(90deg); }
+
+        .accordion-body {
+            display: none;
+            padding: 14px;
+            background: white;
+        }
+        .sub-journey-accordion.open .accordion-body { display: block; }
+
+        .sub-journey-steps {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+        }
+        .sub-step {
+            flex: 1;
+            min-width: 180px;
+            position: relative;
+        }
+        .sub-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 30px;
+            bottom: 30px;
+            width: 1px;
+            background: #e2e8f0;
+        }
+        .sub-step-header {
+            padding: 8px 12px;
+            background: linear-gradient(180deg, #f0f4fa 0%, #e8eef6 100%);
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sub-step-number {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #003580;
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .sub-step-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #003580;
+        }
+        .sub-step-body {
+            padding: 10px 12px;
+        }
+        .sub-step-body .experience-block {
+            margin-bottom: 6px;
+            padding: 6px 8px;
+        }
+        .sub-step-body .experience-text {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .sub-step-body .experience-label {
+            font-size: 10px;
+        }
+        .sub-step-body .stage-bullets li {
+            font-size: 11.5px;
+            padding: 2px 0 2px 12px;
+        }
+        .sub-step-body .bullet-section-label {
+            font-size: 10px;
+            margin-top: 10px;
+            padding-top: 8px;
+        }
+
+        .sub-journey-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 10px;
+            padding: 5px 12px;
+            background: #006ce4;
+            color: white;
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .sub-journey-link:hover { background: #0057b7; }
+
+        /* Comparison table */
+        .comparison-wrap { overflow-x: auto; }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .comparison-table th {
+            background: linear-gradient(180deg, #003580, #004a9e);
+            color: white;
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .comparison-table td {
+            padding: 12px 18px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .comparison-table tr:nth-child(even) td { background: #f8fafc; }
+        .comparison-table tr:hover td { background: #f0f6ff; }
+        .cell-active { color: #16803d; font-weight: 600; }
+        .cell-inactive { color: #9ca3af; }
+        .cell-new { color: #006ce4; font-weight: 600; }
+
+        @media (max-width: 1200px) {
+            .stages-container {
+                display: flex;
+                overflow-x: auto;
+                gap: 0;
+            }
+            .stage-card { min-width: 220px; flex-shrink: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>Voice Experience Journey (Pilot)</h1>
+    </div>
+
+    <div class="page-scenario">
+        <div class="scenario-label">End-to-End Voice Experience - Hungary Pilot on AWS Amazon Connect</div>
+        <p class="scenario-description">This journey maps the end-to-end traveler and agent experience for inbound voice calls on the Hungary pilot site running on AWS Amazon Connect with Pega integration. It covers the full journey starting from phone dial-in by the traveler, through IVR authentication, queue routing, connection to a live agent, service moment and post-contact measurement, including key agent flows for transfers, escalations and callbacks. Go-live target: 16 June 2026.</p>
+        <p class="scenario-owner">Owner: Vera Crisci - Service Design</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="showPhase('inbound', this)">Inbound Call Journey</button>
+        <button class="tab" onclick="showPhase('compare', this)">Capabilities</button>
+    </div>
+
+    <!-- ===================== INBOUND CALL JOURNEY ===================== -->
+    <div id="phase-inbound" class="phase-content active">
+        <div class="intro-block">
+            <div class="section-label">Core Inbound Call Flow - Hungary Pilot</div>
+            <p>The primary voice journey for travellers calling in to the Hungary site. Travellers dial via PSTN or Help Center click-to-call, pass through IVR authentication with Reservation ID and PIN, are classified and prioritized by Genius/VIP/emergency status, then routed to the appropriate queue. Once connected, the agent handles the case using Pega CRM with reservation context auto-loaded.</p>
+            <div class="scope-tags">
+                <span class="scope-tag">Hungarian language</span>
+                <span class="scope-tag">English fallback</span>
+                <span class="scope-tag">AWS Connect</span>
+                <span class="scope-tag">Pega CRM</span>
+                <span class="scope-tag">PSTN entry</span>
+                <span class="scope-tag">Help Center click-to-call</span>
+                <span class="scope-tag">IVR authentication</span>
+                <span class="scope-tag">Accommodation vertical</span>
+            </div>
+        </div>
+
+        <div class="stages-container">
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 01</div>
+                    <div class="stage-title">Contact Entry</div>
+                    <div class="stage-desc">Traveller reaches voice channel via PSTN or Help Center.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Dials the phone number via traditional PSTN or clicks "Call us" from the Help Center on web/app. Hears a generic welcome greeting. The dialed number is owned by Amazon Connect which handles the call via contact flow.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Logs into CTI via Okta authentication. Sets phone status to "Available" and waits to receive call interactions. Has no visibility of incoming callers until a call is assigned from the queue.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>PSTN dial-in (traditional phone)</li>
+                        <li>Help Center click-to-call</li>
+                        <li>Welcome greeting prompt</li>
+                        <li>Language code lookup by DID</li>
+                        <li>Business hours check</li>
+                        <li>Kill switch via feature flag</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>AITS voice bot entry (Parloa out of scope)</li>
+                        <li>Internet calls / click-to-call from app</li>
+                        <li>Multi-vertical entry (accommodation only)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 02</div>
+                    <div class="stage-title">Identification</div>
+                    <div class="stage-desc">IVR authenticates traveller via Reservation ID and PIN.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Learns call may be recorded and provides consent via keypad. Enters reservation ID and PIN using DTMF input. Hears confirmation playback of entered details and confirms or re-enters. Gets up to 3 attempts before transfer to agent.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Has no visibility during IVR. Once traveller is authenticated, the reservation page is auto-loaded and displayed in Pega iFrame. Sees authentication status and caller information when connected.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Recording consent prompt + DTMF</li>
+                        <li>Reservation ID entry via keypad</li>
+                        <li>PIN entry and playback confirmation</li>
+                        <li>3 retry attempts before agent fallback</li>
+                        <li>Backend fetch via Lambda/API call (8s timeout)</li>
+                        <li>High volume prompt (HVP)</li>
+                        <li>Non-authenticated entry path</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Voice biometrics</li>
+                        <li>CLI-based auto-identification</li>
+                        <li>Multi-reservation selection in IVR</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 03</div>
+                    <div class="stage-title">Classification</div>
+                    <div class="stage-desc">Reservation attributes and Genius/VIP/emergency status determined.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Hears reservation status confirmation ("Your reservation is confirmed/cancelled"). Selects request type via keypad - cancellation, payment, or other support. If reservation not found, is informed and transferred directly to an agent.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Does not interact at this stage. Backend evaluates attributes from customer profile - Genius level, VIP status, emergency caller (check-in within 48h), cancellation policy (free vs fees), and reservation status.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Reservation status retrieval and playback</li>
+                        <li>Request type selection (cancel/payment/other)</li>
+                        <li>Genius VIP detection (GL3 priority)</li>
+                        <li>Emergency caller detection (48h check-in)</li>
+                        <li>Cancellation policy assessment</li>
+                        <li>Fallback to agent on failed lookup</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>AI intent detection from speech</li>
+                        <li>Topic selection from Help Center diagnose</li>
+                        <li>Queue-aware smart classification</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 04</div>
+                    <div class="stage-title">Prioritization</div>
+                    <div class="stage-desc">Traveller routed to VIP, Priority, or Standard queue.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Hears "A representative will be available shortly. Please stay on the line." Waits with hold music. If waiting is long, hears offer to switch to English support. Can confirm via keypad to move to ENG queue or stay on the line for Hungarian.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Receives calls from the queue based on availability and routing rules. VIP/Genius Level 3 callers are prioritized. Cannot see queue depth or influence which caller is assigned next. Receives CCP notification in Pega iFrame.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>VIP queue (Genius L3 / STL)</li>
+                        <li>Priority queue (emergency callers)</li>
+                        <li>Standard agent queue</li>
+                        <li>English fallback queue</li>
+                        <li>Hold music during wait</li>
+                        <li>Language switch offer on long wait</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Estimated wait time announcement</li>
+                        <li>Callback offer while in queue</li>
+                        <li>Skill-based routing beyond language</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 05</div>
+                    <div class="stage-title">Service</div>
+                    <div class="stage-desc">Live conversation with agent; case handling via Pega.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Hears audible beep indicating connection. Is greeted by the agent who already has reservation context. Elaborates on request and provides extra details. May be put on hold if agent needs to consult senior or partner. Confirms acknowledgment of next steps.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Greets traveller and reviews caller info received. Verifies identity if needed. Clarifies intent, reviews reservation details and case history. Uses KM Platform for guidelines. Can put caller on hold, perform outbound calls to seniors or partners, and initiate warm or cold transfers.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Reservation auto-loaded in Pega</li>
+                        <li>Case history review</li>
+                        <li>KM Platform guideline access</li>
+                        <li>Put caller on hold with music</li>
+                        <li>Quick connect for transfers</li>
+                        <li>Outbound calls to partner/senior</li>
+                        <li>Warm transfer with context handover</li>
+                        <li>Cold (blind) transfer to other verticals</li>
+                        <li>Click-to-call from Pega</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>AI-assisted reply suggestions</li>
+                        <li>Real-time translation</li>
+                        <li>Automated case summary generation</li>
+                        <li>Concurrent call handling</li>
+                    </ul>
+
+                    <!-- SUB-JOURNEYS within Service -->
+                    <div class="scroll-cue" id="scroll-cue">
+                        <div class="scroll-cue-inner">Key agent flows below</div>
+                    </div>
+                    <div class="sub-journeys-section">
+                        <div class="sub-journeys-label">Key agent flows within this stage</div>
+
+                        <!-- Transfers & Escalations -->
+                        <div class="sub-journey-accordion" id="acc-transfers">
+                            <div class="accordion-header" onclick="toggleAccordion('acc-transfers')">
+                                <div class="accordion-title">
+                                    <span>Transfers & Escalations</span>
+                                </div>
+                                <div class="accordion-icon">&#9654;</div>
+                            </div>
+                            <div class="accordion-body">
+                                <div class="sub-journey-steps">
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">1</div>
+                                            <div class="sub-step-title">Transfer Trigger</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Is informed a transfer is needed - for language support, a different product team, or senior approval.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Identifies need based on language barrier, shift ending, senior approval, or vertical mismatch. Reviews KM Platform guideline.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Language/shift transfer trigger</li>
+                                                <li>Senior approval consult trigger</li>
+                                                <li>Cross-vertical transfer trigger</li>
+                                                <li>Contact number directory</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">2</div>
+                                            <div class="sub-step-title">Hold & Connect</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Hears hold music. If hold exceeds 5 min, agent resumes with update. 120s timeout prompt offers alternatives for language transfers.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Puts traveller on hold. Uses Quick Connect to reach target - senior line, TL extension, language queue, or external number.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Hold with music</li>
+                                                <li>Quick Connect to internal/external</li>
+                                                <li>5-min hold update resumption</li>
+                                                <li>120s timeout prompt (language)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">3</div>
+                                            <div class="sub-step-title">Language Transfer</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Hears beep when new agent connects. Context handed over warmly - no need to re-explain. If unavailable within 120s, offered English or wait.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Provides reservation ID, caller details, request, actions needed, and security status during warm handover. Escalates to TL if line closed.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Warm transfer with full context</li>
+                                                <li>Language queue routing</li>
+                                                <li>TL escalation if line closed</li>
+                                                <li>English fallback offer</li>
+                                            </ul>
+                                            <div class="bullet-section-label cannot">Not yet available</div>
+                                            <ul class="stage-bullets cannot">
+                                                <li>Real-time translation</li>
+                                                <li>Priority for internal transfers</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">4</div>
+                                            <div class="sub-step-title">Senior Consult</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Remains on hold with music. Agent resumes if taking longer than 5 min. Hears outcome once consult concludes.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Uses Quick Connect to reach senior/TL/CSP. Exchanges info and receives approval or guidance. Returns to traveller with outcome.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Senior line Quick Connect</li>
+                                                <li>TL extension + availability check</li>
+                                                <li>CSP Hungarian line</li>
+                                                <li>Pega screen-pop for senior</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">5</div>
+                                            <div class="sub-step-title">Vertical Transfer</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Informed request needs different team. Hears hold music during connection. If no answer within 60s, told follow-up within 2 days.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Initiates cold (blind) transfer via Quick Connect to other vertical (Flights, Cars, Cruise, Taxi, Attractions). Cannot do warm transfer to Cisco agents.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Cold transfer to verticals</li>
+                                                <li>60s answer timeout</li>
+                                                <li>2-day follow-up communication</li>
+                                            </ul>
+                                            <div class="bullet-section-label cannot">Not yet available</div>
+                                            <ul class="stage-bullets cannot">
+                                                <li>Warm transfer to Cisco agents</li>
+                                                <li>Cross-platform metadata handover</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="https://sites.google.com/d/1ygQJxY7de4zjDC-l5uIq6FiUDqzh8dUh/p/1F-hzMzCW8TAuqGSWtrpGE7C_3ylHGlFQ/edit" class="sub-journey-link" target="_blank">Transfer scenario details and limitations &#8599;</a>
+                            </div>
+                        </div>
+
+                        <!-- Partner Outbound Calls -->
+                        <div class="sub-journey-accordion" id="acc-partner">
+                            <div class="accordion-header" onclick="toggleAccordion('acc-partner')">
+                                <div class="accordion-title">
+                                    <span>Partner Outbound Calls</span>
+                                </div>
+                                <div class="accordion-icon">&#9654;</div>
+                            </div>
+                            <div class="accordion-body">
+                                <div class="sub-journey-steps">
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">1</div>
+                                            <div class="sub-step-title">Partner Call</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Informed agent needs to contact the property. Agrees to hold. If hold exceeds 5 min, agent resumes with update. May request callback instead.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Puts traveller on hold. Uses Quick Connect to dial external partner. If no answer within 45s (6 rings), considers email fallback or Language Line.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Quick Connect to external partner</li>
+                                                <li>45s (6 ring) answer threshold</li>
+                                                <li>Language Line for non-English partners</li>
+                                                <li>Email fallback if no answer</li>
+                                                <li>DTMF input for partner systems</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">2</div>
+                                            <div class="sub-step-title">Hold Updates</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">If on hold for 5+ min, hears agent resume with status update. Asked if willing to continue waiting. Can request callback.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Monitors hold time. After 5 min, resumes call to update. Checks if outcome ready. Offers callback or asks to continue holding.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>5-min hold threshold for updates</li>
+                                                <li>Resume and re-hold workflow</li>
+                                                <li>Callback offer during long holds</li>
+                                                <li>Audible cue on reconnect</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">3</div>
+                                            <div class="sub-step-title">Case Continuation</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Hears the outcome of partner consultation. Agent communicates what was agreed. Confirms acknowledgment of next steps.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Resumes original case with full context. Communicates outcome from partner call. Agrees on action points and proceeds to closure.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Full context preservation</li>
+                                                <li>Outcome communication</li>
+                                                <li>Action point agreement</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Disconnection & Callbacks -->
+                        <div class="sub-journey-accordion" id="acc-callbacks">
+                            <div class="accordion-header" onclick="toggleAccordion('acc-callbacks')">
+                                <div class="accordion-title">
+                                    <span>Disconnection & Callbacks</span>
+                                </div>
+                                <div class="accordion-icon">&#9654;</div>
+                            </div>
+                            <div class="accordion-body">
+                                <div class="sub-journey-steps">
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">1</div>
+                                            <div class="sub-step-title">Disconnection</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Call is interrupted unexpectedly. Waits for agent to call back. If intentionally hung up, no callback occurs.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">CCP status auto-switches to ACW. Assesses intentional vs unintentional disconnect. Looks up registered number in Pega Customer 360.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Automatic ACW on disconnect</li>
+                                                <li>Intentional vs unintentional assessment</li>
+                                                <li>Pega Customer 360 number lookup</li>
+                                                <li>Click-to-call from Pega</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">2</div>
+                                            <div class="sub-step-title">Verification Callback</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Receives call to verified number. Answering automatically counts as identity verification. Continues original case without repeating details.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Performs outbound call to verified number. Traveller auto-verified on answer. If no pick-up, withdraws case and follows up via GCT email.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Outbound call to verified number</li>
+                                                <li>Automatic verification on answer</li>
+                                                <li>Continue with original SC type</li>
+                                                <li>GCT email fallback if no answer</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="sub-step">
+                                        <div class="sub-step-header">
+                                            <div class="sub-step-number">3</div>
+                                            <div class="sub-step-title">Case Resumption</div>
+                                        </div>
+                                        <div class="sub-step-body">
+                                            <div class="experience-block traveller">
+                                                <div class="experience-label">Traveller</div>
+                                                <p class="experience-text">Once reconnected, continues original conversation. Agent has full context from previous interaction. Hears resolution and next steps.</p>
+                                            </div>
+                                            <div class="experience-block agent">
+                                                <div class="experience-label">Agent</div>
+                                                <p class="experience-text">Resumes original service case with full context. Communicates outcome and next steps. Proceeds to case closure and wrap-up.</p>
+                                            </div>
+                                            <div class="bullet-section-label can">Available</div>
+                                            <ul class="stage-bullets">
+                                                <li>Full context preservation</li>
+                                                <li>Outcome communication</li>
+                                                <li>Case closure workflow</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-number">Stage 06</div>
+                    <div class="stage-title">Close & Measurement</div>
+                    <div class="stage-desc">Call terminated; interaction logged; ACW and wrap-up.</div>
+                </div>
+                <div class="stage-body">
+                    <div class="experience-section">
+                        <div class="experience-block traveller">
+                            <div class="experience-label">Traveller experience</div>
+                            <p class="experience-text">Hears confirmation of next steps and timeline. Agent greets and waits for traveller to disconnect. If call drops unexpectedly, may receive a callback from the agent for verification and case continuation.</p>
+                        </div>
+                        <div class="experience-block agent">
+                            <div class="experience-label">Agent experience</div>
+                            <p class="experience-text">Terminates call and phone status changes to "Unavailable" (After Call Work) automatically for a set duration. Logs and wraps up the interaction in Pega. If disconnected, initiates callback procedure to verified number. Status returns to "Available" after ACW.</p>
+                        </div>
+                    </div>
+                    <div class="bullet-section-label can">Available</div>
+                    <ul class="stage-bullets">
+                        <li>Automatic ACW status on call end</li>
+                        <li>Interaction logging in Pega</li>
+                        <li>Call back after disconnection</li>
+                        <li>Click-to-call for outbound callback</li>
+                        <li>Automatic verification on callback answer</li>
+                        <li>GCT email follow-up if no answer</li>
+                    </ul>
+                    <div class="bullet-section-label cannot">Not yet available</div>
+                    <ul class="stage-bullets cannot">
+                        <li>Automated call summary generation</li>
+                        <li>CSAT survey post-call</li>
+                        <li>Full WFM metrics integration</li>
+                        <li>Quality monitoring automation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== CAPABILITIES ===================== -->
+    <div id="phase-compare" class="phase-content">
+        <div class="intro-block">
+            <div class="section-label">Voice Pilot Capability Summary - Hungary</div>
+            <p>Overview of capabilities available in the Hungary voice pilot across key dimensions. This maps what is currently operational on AWS Connect with Pega integration versus what remains out of scope or planned for future iterations.</p>
+        </div>
+
+        <div class="comparison-wrap">
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th style="min-width:160px">Capability</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Entry points</strong></td><td class="cell-active">Available</td><td>PSTN dial-in, Help Center click-to-call</td></tr>
+                <tr><td><strong>Platform</strong></td><td class="cell-active">Available</td><td>AWS Amazon Connect + Pega CRM</td></tr>
+                <tr><td><strong>Language</strong></td><td class="cell-active">Available</td><td>Hungarian primary, English fallback</td></tr>
+                <tr><td><strong>IVR authentication</strong></td><td class="cell-active">Available</td><td>Reservation ID + PIN via DTMF, 3 retries</td></tr>
+                <tr><td><strong>Recording consent</strong></td><td class="cell-active">Available</td><td>Prompt + DTMF consent, metadata stored</td></tr>
+                <tr><td><strong>Queue routing</strong></td><td class="cell-active">Available</td><td>VIP, Priority, Standard, English queues</td></tr>
+                <tr><td><strong>Genius/VIP detection</strong></td><td class="cell-active">Available</td><td>GL3 priority, STL, emergency (48h check-in)</td></tr>
+                <tr><td><strong>Agent tooling</strong></td><td class="cell-active">Available</td><td>Pega iFrame, auto-loaded reservation, KM Platform</td></tr>
+                <tr><td><strong>Warm transfer</strong></td><td class="cell-active">Available</td><td>Language/shift transfer with context handover</td></tr>
+                <tr><td><strong>Cold transfer</strong></td><td class="cell-active">Available</td><td>Cross-vertical (Flights, Cars, Cruise, Taxi, Attractions)</td></tr>
+                <tr><td><strong>Senior consult</strong></td><td class="cell-active">Available</td><td>Quick Connect to Senior/TL/CSP lines</td></tr>
+                <tr><td><strong>Partner outbound</strong></td><td class="cell-active">Available</td><td>External calls with Language Line support</td></tr>
+                <tr><td><strong>Hold management</strong></td><td class="cell-active">Available</td><td>Music, 5-min updates, callback offer</td></tr>
+                <tr><td><strong>Disconnection recovery</strong></td><td class="cell-active">Available</td><td>Auto-ACW, callback to verified number</td></tr>
+                <tr><td><strong>Verification callback</strong></td><td class="cell-active">Available</td><td>Auto-verify on answer, GCT email fallback</td></tr>
+                <tr><td><strong>High volume handling</strong></td><td class="cell-active">Available</td><td>HVP prompt, English switch offer</td></tr>
+                <tr><td><strong>AITS/Parloa voice bot</strong></td><td class="cell-inactive">Out of scope</td><td>Voice connector in DEV (Ready for Testing) but not in pilot</td></tr>
+                <tr><td><strong>Multi-vertical ID</strong></td><td class="cell-inactive">Not available</td><td>Accommodation only</td></tr>
+                <tr><td><strong>Real-time translation</strong></td><td class="cell-inactive">Not available</td><td>Manual language transfer only</td></tr>
+                <tr><td><strong>AI assistance</strong></td><td class="cell-inactive">Not available</td><td>No AI suggestions, summaries, or intent detection</td></tr>
+                <tr><td><strong>Cisco-AWS transfer</strong></td><td class="cell-inactive">Limited</td><td>Cold blind only - no metadata passed (CCAAS-1996: To Do)</td></tr>
+                <tr><td><strong>Concurrent calls</strong></td><td class="cell-inactive">Not available</td><td>Single call per agent only</td></tr>
+                <tr><td><strong>Callback in queue</strong></td><td class="cell-inactive">Not available</td><td>Traveller must wait on the line</td></tr>
+                <tr><td><strong>CSAT survey</strong></td><td class="cell-inactive">Not available</td><td>No post-call survey mechanism</td></tr>
+                <tr><td><strong>WFM integration</strong></td><td class="cell-inactive">Not available</td><td>Basic ACW only; full WFM pilot (CCAAS-898: To Do)</td></tr>
+                <tr><td><strong>Outside working hours</strong></td><td class="cell-inactive">Not in pilot</td><td>Flow not yet built (CCAAS-1995: To Do)</td></tr>
+                <tr><td><strong>Unified Agent Desktop</strong></td><td class="cell-inactive">Blocked</td><td>Voice + Chat on single Pega desktop (CCAAS-1062: Blocked)</td></tr>
+                <tr><td><strong>GDPR compliance</strong></td><td class="cell-new">In Progress</td><td>Voice GDPR console integration (CCAAS-1497)</td></tr>
+                <tr><td><strong>Voice data reporting</strong></td><td class="cell-new">In Progress</td><td>Thoughtspot dashboard consolidation (CCAAS-1291)</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <footer style="padding: 18px 48px; font-size: 12px; color: #7a8599; border-top: 1px solid #dfe3ea; margin-top: 0;">
+        Sources: <a href="https://miro.com/app/board/uXjVGlJf9a4=/?moveToWidget=3458764667008786450" style="color: #006ce4; text-decoration: none;">Hungary Pilot - E2E Voice Experience (Miro)</a> | <a href="https://booking.atlassian.net/jira/software/c/projects/CCAAS/boards/20175" style="color: #006ce4; text-decoration: none;">CCAAS Board (Jira)</a> - Go-live 16 June 2026. Capabilities verified against Jira as of 10 June 2026.
+    </footer>
+
+    <script>
+        function showPhase(phase, btn) {
+            document.querySelectorAll('.phase-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('phase-' + phase).classList.add('active');
+            btn.classList.add('active');
+            equalizeExperienceHeights();
+        }
+
+        function toggleAccordion(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('open');
+            checkScrollCue();
+        }
+
+        function equalizeExperienceHeights() {
+            document.querySelectorAll('.stages-container').forEach(container => {
+                const sections = container.querySelectorAll(':scope > .stage-card > .stage-body > .experience-section');
+                sections.forEach(s => s.style.minHeight = '');
+                let maxHeight = 0;
+                sections.forEach(s => {
+                    if (s.offsetHeight > maxHeight) maxHeight = s.offsetHeight;
+                });
+                sections.forEach(s => s.style.minHeight = maxHeight + 'px');
+
+                const headers = container.querySelectorAll(':scope > .stage-card > .stage-header');
+                headers.forEach(h => h.style.minHeight = '');
+                let maxHeaderHeight = 0;
+                headers.forEach(h => {
+                    if (h.offsetHeight > maxHeaderHeight) maxHeaderHeight = h.offsetHeight;
+                });
+                headers.forEach(h => h.style.minHeight = maxHeaderHeight + 'px');
+            });
+        }
+
+        window.addEventListener('load', equalizeExperienceHeights);
+        window.addEventListener('resize', equalizeExperienceHeights);
+
+        // Hide scroll cue when any accordion is opened
+        function checkScrollCue() {
+            const cue = document.getElementById('scroll-cue');
+            if (!cue) return;
+            const anyOpen = document.querySelector('.sub-journey-accordion.open');
+            cue.style.opacity = anyOpen ? '0' : '1';
+        }
+        window.addEventListener('scroll', checkScrollCue);
+        window.addEventListener('load', checkScrollCue);
+    </script>
+</body>
+</html>
